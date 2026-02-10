@@ -3,17 +3,13 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 mix-blend-difference">
       <div className="flex items-center gap-3">
         <span className="text-3xl font-black tracking-[-0.08em] uppercase text-primary">
-          STONESAINTS
+          STONESAINTS™
         </span>
-        <span className="text-muted-foreground text-xs font-mono hidden md:inline">
-          {`<div>`}
-        </span>
+        
       </div>
 
       <div className="flex items-center gap-8">
-        <span className="text-muted-foreground text-xs font-mono hidden md:inline">
-          {`<!-- nav -->`}
-        </span>
+        
         {["COLLECTION", "ABOUT", "CART"].map((link) => (
           <a
             key={link}
