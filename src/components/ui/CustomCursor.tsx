@@ -5,7 +5,6 @@ const CustomCursor = () => {
     const [hovering, setHovering] = useState(false);
     const cursorRef = useRef<HTMLDivElement>(null);
 
-    // Use refs for the current animation state to avoid re-renders on every frame
     const positionRef = useRef({ x: 0, y: 0 });
     const targetRef = useRef({ x: 0, y: 0 });
 
@@ -23,8 +22,7 @@ const CustomCursor = () => {
         const animate = () => {
             if (!cursorRef.current) return;
 
-            // Lerp factor - lower is smoother/slower, higher is snappier
-            const lerp = 0.1;
+            const lerp = 1;
 
             positionRef.current.x += (targetRef.current.x - positionRef.current.x) * lerp;
             positionRef.current.y += (targetRef.current.y - positionRef.current.y) * lerp;
@@ -50,7 +48,6 @@ const CustomCursor = () => {
             style={{
                 left: 0,
                 top: 0
-                // Transform is handled by JS for performance
             }}
         />
     );

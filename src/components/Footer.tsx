@@ -1,10 +1,6 @@
 const Footer = () => {
     return (
         <footer className="border-t border-border px-8 py-16">
-            <p className="text-muted-foreground text-xs font-mono mb-8 opacity-40">
-                {`<footer>`}
-            </p>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div>
                     <h2 className="text-2xl font-black tracking-[-0.06em] uppercase text-primary mb-4">
@@ -16,10 +12,7 @@ const Footer = () => {
                         Est. 2026 — Nowhere.
                     </p>
                 </div>
-
-                {/* Links */}
                 <div className="flex flex-col gap-3">
-                    <span className="text-xs font-mono text-muted-foreground/40">{`<!-- links -->`}</span>
                     {["COLLECTION", "ABOUT", "STOCKISTS", "CONTACT"].map((link) => (
                         <a
                             key={link}
@@ -30,10 +23,7 @@ const Footer = () => {
                         </a>
                     ))}
                 </div>
-
-                {/* Newsletter */}
                 <div>
-                    <span className="text-xs font-mono text-muted-foreground/40 block mb-4">{`<!-- subscribe -->`}</span>
                     <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-3">
                         JOIN THE CONGREGATION
                     </p>
@@ -66,10 +56,6 @@ const Footer = () => {
                     ))}
                 </div>
             </div>
-
-            <p className="text-muted-foreground text-xs font-mono mt-8 opacity-40">
-                {`</footer>`}
-            </p>
         </footer>
     );
 };

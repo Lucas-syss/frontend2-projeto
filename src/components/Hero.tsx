@@ -6,9 +6,6 @@ const Hero = () => {
     <section className="relative h-screen w-full overflow-hidden flex items-end">
       <HeroBackground />
       <div className="relative z-10 w-full px-8 pb-16 md:pb-24">
-        <p className="text-muted-foreground text-xs font-mono mb-4 opacity-40">
-          {`<section id="hero" class="fall-from-grace">`}
-        </p>
         <div className="relative">
           <h1 className="text-[clamp(3rem,12vw,12rem)] font-black uppercase leading-[0.85] tracking-[-0.05em] text-primary animate-flicker mix-blend-difference">
             FALL

@@ -107,10 +107,6 @@ const ProductCard = ({ product, index }: { product: typeof products[0]; index: n
 const ProductGrid = () => {
     return (
         <section id="collection" className="relative px-8 py-24">
-            <p className="text-muted-foreground text-xs font-mono mb-8 opacity-40">
-                {`<!-- collection grid -->`}
-            </p>
-
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[220px] md:auto-rows-[280px]">
                 {products.map((product, i) => (
                     <ProductCard key={product.id} product={product} index={i} />
