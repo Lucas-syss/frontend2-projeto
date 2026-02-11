@@ -82,33 +82,97 @@
 
 /* Glitch effect */
 @keyframes glitch-1 {
-  0%, 100% { clip-path: inset(0 0 90% 0); transform: translate(-2px, 2px); }
-  25% { clip-path: inset(20% 0 60% 0); transform: translate(2px, -2px); }
-  50% { clip-path: inset(50% 0 30% 0); transform: translate(-1px, 1px); }
-  75% { clip-path: inset(70% 0 10% 0); transform: translate(1px, -1px); }
+
+  0%,
+  100% {
+    clip-path: inset(0 0 90% 0);
+    transform: translate(-2px, 2px);
+  }
+
+  25% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translate(2px, -2px);
+  }
+
+  50% {
+    clip-path: inset(50% 0 30% 0);
+    transform: translate(-1px, 1px);
+  }
+
+  75% {
+    clip-path: inset(70% 0 10% 0);
+    transform: translate(1px, -1px);
+  }
 }
 
 @keyframes glitch-2 {
-  0%, 100% { clip-path: inset(80% 0 0 0); transform: translate(2px, -2px); }
-  25% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 2px); }
-  50% { clip-path: inset(40% 0 40% 0); transform: translate(1px, -1px); }
-  75% { clip-path: inset(60% 0 20% 0); transform: translate(-1px, 1px); }
+
+  0%,
+  100% {
+    clip-path: inset(80% 0 0 0);
+    transform: translate(2px, -2px);
+  }
+
+  25% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translate(-2px, 2px);
+  }
+
+  50% {
+    clip-path: inset(40% 0 40% 0);
+    transform: translate(1px, -1px);
+  }
+
+  75% {
+    clip-path: inset(60% 0 20% 0);
+    transform: translate(-1px, 1px);
+  }
 }
 
 @keyframes flicker {
-  0%, 100% { opacity: 1; }
-  5% { opacity: 0.8; }
-  10% { opacity: 1; }
-  15% { opacity: 0.6; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  85% { opacity: 0.7; }
-  90% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  5% {
+    opacity: 0.8;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  15% {
+    opacity: 0.6;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 0.7;
+  }
+
+  90% {
+    opacity: 1;
+  }
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Glitch hover on product cards */
@@ -149,9 +213,61 @@
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: hsl(0 0% 4%);
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(0 0% 20%);
+}
+
+@keyframes noise {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  10% {
+    transform: translate(-5%, -5%);
+  }
+
+  20% {
+    transform: translate(-10%, 5%);
+  }
+
+  30% {
+    transform: translate(5%, -10%);
+  }
+
+  40% {
+    transform: translate(-5%, 15%);
+  }
+
+  50% {
+    transform: translate(-10%, 5%);
+  }
+
+  60% {
+    transform: translate(15%, 0);
+  }
+
+  70% {
+    transform: translate(0, 10%);
+  }
+
+  80% {
+    transform: translate(-15%, 0);
+  }
+
+  90% {
+    transform: translate(10%, 5%);
+  }
+
+  100% {
+    transform: translate(5%, 0);
+  }
+}
+
+.animate-noise {
+  animation: noise 0.2s steps(1) infinite;
 }
