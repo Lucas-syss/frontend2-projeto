@@ -13,6 +13,7 @@ const Index = () => {
       <Hero />
       <Marquee/>
       <ProductGrid/>
+      <Marquee/>
       <Statement/>
       <Footer />
     </div>

@@ -1,19 +1,16 @@
 import angelDark from "@/assets/angel-dark.png";
+import HeroBackground from "./HeroBackground";
 
 const Hero = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden flex items-end">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${angelDark})` }}
-      />
-      <div className="absolute inset-0 bg-background/60" />
+      <HeroBackground />
       <div className="relative z-10 w-full px-8 pb-16 md:pb-24">
         <p className="text-muted-foreground text-xs font-mono mb-4 opacity-40">
           {`<section id="hero" class="fall-from-grace">`}
         </p>
         <div className="relative">
-          <h1 className="text-[clamp(3rem,12vw,12rem)] font-black uppercase leading-[0.85] tracking-[-0.05em] text-primary animate-flicker">
+          <h1 className="text-[clamp(3rem,12vw,12rem)] font-black uppercase leading-[0.85] tracking-[-0.05em] text-primary animate-flicker mix-blend-difference">
             FALL
             <br />
             <span className="ml-[10vw]">FROM</span>
