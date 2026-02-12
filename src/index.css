@@ -80,7 +80,6 @@
   mix-blend-mode: difference;
 }
 
-/* Glitch effect */
 @keyframes glitch-1 {
 
   0%,
@@ -175,7 +174,6 @@
   }
 }
 
-/* Glitch hover on product cards */
 .glitch-hover {
   position: relative;
   transition: transform 0.2s ease;

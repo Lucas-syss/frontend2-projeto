@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import wraithHoodie from "@/assets/wraith-hoodie.png";
 import decayTee from "@/assets/decay-tee.png";
+import saintBracelet from "@/assets/bound-bracelet.png";
+import ruggedRings from "@/assets/rugged-rings.png";
+import ruinVest from "@/assets/ruin-vest.png";
+import tombJacket from "@/assets/tomb-jacket.png";
 
 const products = [
     {
@@ -22,28 +26,28 @@ const products = [
         name: "TOMB JACKET",
         price: "€680",
         span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1",
-        image: wraithHoodie
+        image: tombJacket
     },
     {
         id: 4,
         name: "RUIN VEST",
         price: "€290",
         span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1",
-        image: decayTee
+        image: ruinVest
     },
     {
         id: 5,
-        name: "SAINT CREWNECK",
-        price: "€320",
+        name: "SAINT BRACELET",
+        price: "€110",
         span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1",
-        image: wraithHoodie
+        image: saintBracelet
     },
     {
         id: 6,
-        name: "PEDRO",
-        price: "€320",
+        name: "RUGGED RINGS",
+        price: "€50",
         span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1",
-        image: decayTee
+        image: ruggedRings
     },
 ];
 
