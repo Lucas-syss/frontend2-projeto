@@ -7,42 +7,42 @@ const products = [
         id: 1,
         name: "WRAITH HOODIE",
         price: "€420",
-        span: "col-span-1 row-span-2",
+        span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-2",
         image: wraithHoodie
     },
     {
         id: 2,
         name: "DECAY TEE",
         price: "€180",
-        span: "col-span-1 row-span-2",
+        span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-2",
         image: decayTee
     },
     {
         id: 3,
         name: "TOMB JACKET",
         price: "€680",
-        span: "col-span-1 row-span-2",
+        span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1",
         image: wraithHoodie
     },
     {
         id: 4,
         name: "RUIN VEST",
         price: "€290",
-        span: "col-span-1 row-span-2",
+        span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1",
         image: decayTee
     },
     {
         id: 5,
         name: "SAINT CREWNECK",
         price: "€320",
-        span: "col-span-1 row-span-2",
+        span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1",
         image: wraithHoodie
     },
     {
         id: 6,
         name: "PEDRO",
         price: "€320",
-        span: "col-span-1 row-span-2",
+        span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1",
         image: decayTee
     },
 ];
@@ -107,7 +107,7 @@ const ProductCard = ({ product, index }: { product: typeof products[0]; index: n
 const ProductGrid = () => {
     return (
         <section id="collection" className="relative px-8 py-24">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[220px] md:auto-rows-[280px]">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[300px]">
                 {products.map((product, i) => (
                     <ProductCard key={product.id} product={product} index={i} />
                 ))}

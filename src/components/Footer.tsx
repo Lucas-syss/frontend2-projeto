@@ -13,7 +13,7 @@ const Footer = () => {
                     </p>
                 </div>
                 <div className="flex flex-col gap-3">
-                    {["COLLECTION", "ABOUT", "STOCKISTS", "CONTACT"].map((link) => (
+                    {["COLLECTION", "ABOUT", "CONTACT"].map((link) => (
                         <a
                             key={link}
                             href="#"
