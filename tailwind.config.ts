@@ -57,6 +57,9 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        obsidian: "#0a0a0a",
+        charcoal: "#1a1a1a",
+        ash: "#d4d4d4",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
+import Archive from "./pages/Archive";
+
 const queryClient = new QueryClient();
 
 import GlobalNoise from "./components/ui/GlobalNoise";
@@ -47,6 +49,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/archive" element={<Archive />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
