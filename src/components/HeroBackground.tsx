@@ -19,8 +19,7 @@ uniform sampler2D iChannel0;
 
 varying vec2 vUv;
 
-// Simplex noise function
-vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+            vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 
 float snoise(vec2 v){
   const vec4 C = vec4(0.211324865405187, 0.366025403784439,
@@ -51,12 +50,10 @@ float snoise(vec2 v){
 void main() {
     vec2 uv = vUv;
     
-    // Mouse interaction
     vec2 mouse = iMouse / iResolution;
     float dist = distance(uv, mouse);
     float mouseEffect = smoothstep(0.4, 0.0, dist) * 0.05;
     
-    // Liquid distortion
     float noise1 = snoise(uv * 3.0 + iTime * 0.1);
     float noise2 = snoise(uv * 6.0 - iTime * 0.2);
     
@@ -64,18 +61,15 @@ void main() {
     
     vec2 distortedUv = uv + displacement;
     
-    // Chromatic aberration
     float r = texture2D(iChannel0, distortedUv + vec2(0.002, 0.0)).r;
     float g = texture2D(iChannel0, distortedUv).g;
     float b = texture2D(iChannel0, distortedUv - vec2(0.002, 0.0)).b;
     
     vec3 color = vec3(r, g, b);
     
-    // Vignette
     float vignette = 1.0 - smoothstep(0.5, 1.5, length(uv - 0.5) * 1.5);
     color *= vignette;
     
-    // Darken
     color = mix(color, vec3(0.0), 0.3);
     
     gl_FragColor = vec4(color, 1.0);
@@ -162,7 +156,7 @@ const HeroBackground = () => {
         resize();
 
         const handleMouseMove = (e: MouseEvent) => {
-            mouseRef.current = { x: e.clientX, y: window.innerHeight - e.clientY }; // Flip Y for WebGL
+            mouseRef.current = { x: e.clientX, y: window.innerHeight - e.clientY };
         };
         window.addEventListener('mousemove', handleMouseMove);
 

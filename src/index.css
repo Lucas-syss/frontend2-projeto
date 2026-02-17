@@ -47,7 +47,7 @@
 
 @layer base {
   * {
-    @apply border-border cursor-none;
+    @apply border-border;
   }
 
   html {
@@ -207,7 +207,7 @@
   mix-blend-mode: screen;
 }
 
-/* Scrollbar styling */
+
 ::-webkit-scrollbar {
   width: 6px;
 }

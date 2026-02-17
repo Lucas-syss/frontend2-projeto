@@ -5,57 +5,38 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-
 import Archive from "./pages/Archive";
+import GlobalNoise from "./components/ui/GlobalNoise";
+import Preloader from "./components/ui/Preloader";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AuthPortal from "./pages/AuthPortal";
+import Vault from "./pages/Vault";
 
 const queryClient = new QueryClient();
 
-import GlobalNoise from "./components/ui/GlobalNoise";
-import CustomCursor from "./components/ui/CustomCursor";
-
-import { useEffect } from "react";
-import Lenis from "lenis";
-
-const LenisRoot = ({ children }: { children: React.ReactNode }) => {
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-
-  return <>{children}</>;
-};
-
 const App = () => (
-  <LenisRoot>
+  <>
+    <Preloader />
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <GlobalNoise />
-        <CustomCursor />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/archive" element={<Archive />} />
+            <Route path="/auth" element={<AuthPortal />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/vault" element={<Vault />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
-  </LenisRoot>
+  </>
 );
 
 export default App;

@@ -1,121 +1,168 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import wraithHoodie from "@/assets/wraith-hoodie.png";
 import decayTee from "@/assets/decay-tee.png";
 import saintBracelet from "@/assets/bound-bracelet.png";
 import ruggedRings from "@/assets/rugged-rings.png";
 import ruinVest from "@/assets/ruin-vest.png";
 import tombJacket from "@/assets/tomb-jacket.png";
+import ProductModal from "./ProductModal";
 
 const products = [
     {
         id: 1,
         name: "WRAITH HOODIE",
         price: "€420",
-        span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-2",
-        image: wraithHoodie
+        image: wraithHoodie,
+        offset: 0,
+        speed: 0.05
     },
     {
         id: 2,
         name: "DECAY TEE",
         price: "€180",
-        span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-2",
-        image: decayTee
+        image: decayTee,
+        offset: 100,
+        speed: 0.1
     },
     {
         id: 3,
         name: "TOMB JACKET",
         price: "€680",
-        span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1",
-        image: tombJacket
+        image: tombJacket,
+        offset: -50,
+        speed: 0.02
     },
     {
         id: 4,
         name: "RUIN VEST",
         price: "€290",
-        span: "col-span-1 md:col-span-1 lg:col-span-1 row-span-1",
-        image: ruinVest
+        image: ruinVest,
+        offset: 80,
+        speed: 0.08
     },
     {
         id: 5,
         name: "SAINT BRACELET",
         price: "€110",
-        span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1",
-        image: saintBracelet
+        image: saintBracelet,
+        offset: 0,
+        speed: 0.06
     },
     {
         id: 6,
         name: "RUGGED RINGS",
         price: "€50",
-        span: "col-span-1 md:col-span-2 lg:col-span-2 row-span-1",
-        image: ruggedRings
+        image: ruggedRings,
+        offset: 120,
+        speed: 0.12
     },
 ];
 
-const ProductCard = ({ product, index }: { product: typeof products[0]; index: number }) => {
+const ProductItem = ({ product, index, onClick }: { product: typeof products[0], index: number, onClick: () => void }) => {
     const ref = useRef<HTMLDivElement>(null);
-    const [visible, setVisible] = useState(false);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"]
+    });
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-            { threshold: 0.15 }
-        );
-        if (ref.current) observer.observe(ref.current);
-        return () => observer.disconnect();
-    }, []);
+    const y = useTransform(scrollYProgress, [0, 1], [0, product.speed * 400]);
 
     return (
-        <div
+        <motion.div
             ref={ref}
-            className={`${product.span} group relative overflow-hidden bg-secondary/10 border border-white/5 data-[visible=true]:animate-in data-[visible=true]:fade-in-0 data-[visible=true]:slide-in-from-bottom-4 duration-700`}
-            data-visible={visible}
-            style={{ transitionDelay: `${index * 100}ms` }}
+            style={{ y, marginTop: product.offset }}
+            className="group relative cursor-pointer mb-24 md:mb-48"
+            onClick={onClick}
         >
-            <div className="absolute inset-0 z-0 overflow-hidden">
+            <div className="relative aspect-[3/4] overflow-hidden bg-white/5 border border-white/10">
                 <img
                     src={product.image}
                     alt={product.name}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
-            </div>
 
-            <div className="relative z-20 flex flex-col justify-between h-full p-6">
-                <div className="flex justify-between items-start opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                    <span className="text-[10px] font-mono tracking-widest text-white/60 bg-black/50 px-2 py-1 backdrop-blur-sm">
-                        {String(product.id).padStart(2, '0')}
-                    </span>
-                    <span className="text-[10px] font-mono tracking-widest text-white/60 bg-black/50 px-2 py-1 backdrop-blur-sm">
-                        stock: [ok]
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white font-mono uppercase tracking-widest text-xs border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors">
+                        Inspect
                     </span>
                 </div>
-
-                <div className="mt-auto transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
-                    <h3 className="text-xl font-black tracking-tighter text-white uppercase mix-blend-difference">
-                        {product.name}
-                    </h3>
-                    <div className="flex items-center justify-between mt-2 border-t border-white/20 pt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
-                        <p className="text-sm font-medium tracking-widest text-white">
-                            {product.price}
-                        </p>
-                        <button className="text-[10px] uppercase tracking-widest hover:text-white/70 transition-colors">
-                            View Item
-                        </button>
-                    </div>
-                </div>
             </div>
-        </div>
+
+            <div className="mt-4 flex flex-col items-start gap-1">
+                <span className="text-xs font-mono text-white/50 uppercase tracking-widest">
+                    0{index + 1}
+                </span>
+                <h3 className="text-xl md:text-2xl font-black uppercase text-white mix-blend-difference">
+                    {product.name}
+                </h3>
+                <span className="text-sm font-mono text-primary">
+                    {product.price}
+                </span>
+            </div>
+        </motion.div>
     );
-};
+}
 
 const ProductGrid = () => {
+    const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
+
     return (
-        <section id="collection" className="relative px-8 py-24">
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[300px]">
-                {products.map((product, i) => (
-                    <ProductCard key={product.id} product={product} index={i} />
-                ))}
+        <section id="collection" className="relative px-4 md:px-8 py-24 min-h-screen bg-black overflow-hidden">
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/10 blur-[100px] rounded-full mix-blend-screen pointer-events-none" />
+
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_10%,transparent_100%)] opacity-50" />
+
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border-[2px] border-white/20 rounded-full animate-spin-slow duration-[30s]" />
             </div>
+
+            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16">
+                <div className="flex flex-col">
+                    {products.filter((_, i) => i % 3 === 0).map((product, i) => (
+                        <ProductItem
+                            key={product.id}
+                            product={product}
+                            index={i * 3}
+                            onClick={() => setSelectedProduct(product)}
+                        />
+                    ))}
+                </div>
+
+                <div className="flex flex-col pt-24 md:pt-48">
+                    {products.filter((_, i) => i % 3 === 1).map((product, i) => (
+                        <ProductItem
+                            key={product.id}
+                            product={product}
+                            index={i * 3 + 1}
+                            onClick={() => setSelectedProduct(product)}
+                        />
+                    ))}
+                </div>
+
+                <div className="flex flex-col pt-0 md:pt-24">
+                    {products.filter((_, i) => i % 3 === 2).map((product, i) => (
+                        <ProductItem
+                            key={product.id}
+                            product={product}
+                            index={i * 3 + 2}
+                            onClick={() => setSelectedProduct(product)}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            <div className="text-center py-24">
+                <p className="text-zinc-500 font-mono text-xs uppercase tracking-[0.5em]">
+                    End of Collection
+                </p>
+            </div>
+
+            <ProductModal
+                product={selectedProduct}
+                isOpen={!!selectedProduct}
+                onClose={() => setSelectedProduct(null)}
+            />
         </section>
     );
 };

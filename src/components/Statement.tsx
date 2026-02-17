@@ -1,54 +1,62 @@
-import angelLight from "@/assets/angel-light.png";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const Statement = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    const x1 = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
+    const x2 = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
     return (
-        <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-black py-32">
-            <div className="absolute inset-0 z-0">
-                <div
-                    className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity grayscale"
-                    style={{ backgroundImage: `url(${angelLight})` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]" />
-            </div>
+        <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black py-24 md:py-48">
+            <div className="absolute inset-0 opacity-[0.05] bg-[url('/noise.png')] pointer-events-none mix-blend-overlay" />
 
-            <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
-                <div className="mb-8 overflow-hidden">
-                    <p className="text-xs font-mono tracking-[0.5em] text-white/50 animate-fade-down animate-duration-[2000ms]">
-                        EST. 2026 — GLOBAL UNDERGROUND
-                    </p>
+            <div className="relative z-10 w-full flex flex-col items-center justify-center gap-12 md:gap-24">
+
+                <div className="w-full overflow-hidden">
+                    <motion.h2
+                        style={{ x: x1 }}
+                        className="text-[15vw] leading-[0.8] font-black uppercase text-white whitespace-nowrap opacity-20 pointer-events-none select-none tracking-tighter"
+                    >
+                        IMPERFECTION IS TRUTH
+                    </motion.h2>
                 </div>
 
-                <div className="relative w-full">
-                    <h2 className="text-[clamp(3.5rem,10vw,12rem)] font-black leading-[0.85] tracking-tighter text-white mix-blend-difference">
-                        <span className="block animate-fade-right animate-duration-1000 animate-delay-100 hover:text-white/90 transition-colors">
-                            WE DON'T
-                        </span>
-                        <span className="block text-white/20 ml-[15vw] animate-fade-left animate-duration-1000 animate-delay-300">
-                            DESIGN
-                        </span>
-                        <span className="block text-right mr-[5vw] animate-fade-right animate-duration-1000 animate-delay-500">
-                            FOR THE
-                        </span>
-                        <div className="relative inline-block animate-fade-up animate-duration-1000 animate-delay-700">
-                            <span className="relative z-10 text-white">COMFORTABLE</span>
-                            <div className="absolute -bottom-2 left-0 right-0 h-[0.1em] bg-white transform origin-left scale-x-0 animate-expand animate-delay-[1500ms] animate-fill-forwards" />
-                        </div>
-                    </h2>
+                <div className="max-w-4xl px-8 text-center relative">
+                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-px h-12 bg-white/20" />
+
+                    <h3 className="text-lg md:text-2xl font-mono uppercase tracking-[0.2em] text-primary mb-8">
+                        Manifesto_01
+                    </h3>
+
+                    <p className="text-2xl md:text-5xl font-bold leading-tight uppercase text-white mix-blend-difference">
+                        Using <span className="text-white/40">chaos</span> as a medium.
+                        <br />
+                        We don't create for the <span className="italic">comfortable</span>.
+                        <br />
+                        We create for the <span className="line-through decoration-primary">broken</span>.
+                    </p>
+
+                    <p className="mt-12 text-sm md:text-base text-white/60 font-mono tracking-widest max-w-2xl mx-auto leading-relaxed">
+                        In a world obsessed with polish, we worship the glitch.
+                        Every thread is a rebellion against the pristine.
+                        Wear your scars correctly.
+                    </p>
+
+                    <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-px h-12 bg-white/20" />
                 </div>
 
-                <div className="mt-16 md:mt-24 max-w-2xl text-left self-end mr-[10%] border-l border-white/20 pl-6 md:pl-8 animate-fade-up animate-delay-1000">
-                    <p className="text-lg md:text-xl font-light leading-relaxed text-white/80 tracking-wide">
-                        StoneSaints exists at the intersection of <span className="font-bold text-white">ruin</span> and refinement.
-                        Each piece is a monument to what was never meant to last —
-                        built from the rubble of convention, draped in controlled decay.
-                    </p>
-                    <div className="mt-8 flex items-center gap-4">
-                        <div className="h-px w-12 bg-white/50" />
-                        <span className="text-xs font-mono text-white/50 uppercase tracking-widest">
-                            No Compromise
-                        </span>
-                    </div>
+                <div className="w-full overflow-hidden">
+                    <motion.h2
+                        style={{ x: x2 }}
+                        className="text-[15vw] leading-[0.8] font-black uppercase text-white whitespace-nowrap opacity-20 pointer-events-none select-none tracking-tighter text-right"
+                    >
+                        ORDER FROM CHAOS
+                    </motion.h2>
                 </div>
             </div>
         </section>
