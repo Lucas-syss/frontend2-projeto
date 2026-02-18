@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import angelDark from "@/assets/angel-dark.png";
 
 const vertexShader = `
 attribute vec2 position;
@@ -130,7 +129,7 @@ const HeroBackground = () => {
         gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
         const image = new Image();
-        image.src = angelDark;
+        image.src = "public/angel-dark.webp";
         image.onload = () => {
             const texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, texture);

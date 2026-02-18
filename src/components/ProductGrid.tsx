@@ -1,11 +1,5 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import wraithHoodie from "@/assets/wraith-hoodie.png";
-import decayTee from "@/assets/decay-tee.png";
-import saintBracelet from "@/assets/bound-bracelet.png";
-import ruggedRings from "@/assets/rugged-rings.png";
-import ruinVest from "@/assets/ruin-vest.png";
-import tombJacket from "@/assets/tomb-jacket.png";
 import ProductModal from "./ProductModal";
 
 const products = [
@@ -13,7 +7,7 @@ const products = [
         id: 1,
         name: "WRAITH HOODIE",
         price: "€420",
-        image: wraithHoodie,
+        image: "public/wraith-hoodie.webp",
         offset: 0,
         speed: 0.05
     },
@@ -21,7 +15,7 @@ const products = [
         id: 2,
         name: "DECAY TEE",
         price: "€180",
-        image: decayTee,
+        image: "public/decay-tee.webp",
         offset: 100,
         speed: 0.1
     },
@@ -29,7 +23,7 @@ const products = [
         id: 3,
         name: "TOMB JACKET",
         price: "€680",
-        image: tombJacket,
+        image: "public/tomb-jacket.webp",
         offset: -50,
         speed: 0.02
     },
@@ -37,7 +31,7 @@ const products = [
         id: 4,
         name: "RUIN VEST",
         price: "€290",
-        image: ruinVest,
+        image: "public/ruin-vest.webp",
         offset: 80,
         speed: 0.08
     },
@@ -45,15 +39,15 @@ const products = [
         id: 5,
         name: "SAINT BRACELET",
         price: "€110",
-        image: saintBracelet,
+        image: "public/bound-bracelet.webp",
         offset: 0,
         speed: 0.06
     },
     {
-        id: 6,
+        id: 5,
         name: "RUGGED RINGS",
         price: "€50",
-        image: ruggedRings,
+        image: "public/rugged-rings.webp",
         offset: 120,
         speed: 0.12
     },
