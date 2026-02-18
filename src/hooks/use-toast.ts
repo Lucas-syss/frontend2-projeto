@@ -83,7 +83,6 @@ export const reducer = (state: State, action: Action): State => {
       };
 
     case "DISMISS_TOAST": {
-      const { toastId } = action;
 
       const { toastId } = action;
 
