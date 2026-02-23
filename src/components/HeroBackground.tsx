@@ -130,7 +130,7 @@ const HeroBackground = () => {
         gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
         const image = new Image();
-        image.src = "public/angel-dark.webp";
+        image.src = "/angel-dark.webp";
         image.onload = () => {
             const texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, texture);

@@ -10,7 +10,7 @@ const Navbar = () => {
       </Link>
 
       <div className="flex items-center gap-8">
-        {["COLLECTION", "ABOUT"].map((link) => (
+        {["COLLECTION", "LOOKBOOK"].map((link) => (
           <a
             key={link}
             href={`/#${link.toLowerCase()}`}
@@ -25,12 +25,12 @@ const Navbar = () => {
         >
           ARCHIVE
         </Link>
-        <a
-          href="#"
+        <Link
+          href="/cart"
           className="relative text-xs tracking-[0.3em] uppercase text-primary after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-4px] after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
         >
           CART
-        </a>
+        </Link>
         <Link
           href="/auth"
           className="relative text-xs tracking-[0.3em] uppercase text-primary after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-4px] after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"

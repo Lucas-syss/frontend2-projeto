@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import ProductGrid from "@/components/ProductGrid";
 import Statement from "@/components/Statement";
+import Lookbook from "@/components/Lookbook";
 import Footer from "@/components/Footer";
 
 
@@ -11,10 +12,11 @@ const Index = () => {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
       <Hero />
-      <Marquee/>
-      <ProductGrid/>
-      <Marquee/>
-      <Statement/>
+      <Marquee />
+      <ProductGrid />
+      <Marquee />
+      <Lookbook />
+      <Statement />
       <Footer />
     </div>
   );

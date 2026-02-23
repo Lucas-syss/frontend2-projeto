@@ -25,18 +25,12 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
             {isOpen && (
                 <>
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm"
                     />
 
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 50 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                         className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-8 pointer-events-none"
                     >
                         <div className="pointer-events-auto relative w-full max-w-5xl grid overflow-hidden border border-white/10 bg-black/90 md:grid-cols-2 shadow-2xl">
@@ -52,9 +46,6 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
                                     src={product.image}
                                     alt={product.name}
                                     className="h-full w-full object-cover"
-                                    initial={{ scale: 1.2 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{ duration: 0.7 }}
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
                             </div>
@@ -88,7 +79,7 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
                                 </div>
 
                                 <button className="group relative mt-8 w-full overflow-hidden bg-white px-8 py-4 text-black transition-transform active:scale-95">
-                                    <span className="relative z-10 text-sm font-black uppercase tracking-[0.3em] group-hover:text-white transition-colors">
+                                    <span className="relative z-10 text-sm font-black uppercase tracking-[0.3em] group-hover:text-black transition-colors">
                                         Add to Cart
                                     </span>
                                     <div className="absolute inset-0 z-0 bg-primary translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
