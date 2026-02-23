@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+"use client";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import GlitchText from "@/components/ui/GlitchText";
 
@@ -6,7 +7,7 @@ const AuthPortal = () => {
     return (
         <div className="min-h-screen w-full grid grid-cols-1 md:grid-cols-2">
 
-            <Link to="/login" className="group relative flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black overflow-hidden hover:bg-white/5 transition-colors duration-500">
+            <Link href="/login" className="group relative flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-black overflow-hidden hover:bg-white/5 transition-colors duration-500">
                 <div className="relative z-10 text-center space-y-4">
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mix-blend-difference group-hover:scale-110 transition-transform duration-500">
                         <GlitchText text="ACCESS" />
@@ -21,7 +22,7 @@ const AuthPortal = () => {
             </Link>
 
 
-            <Link to="/register" className="group relative flex items-center justify-center bg-black overflow-hidden hover:bg-white/5 transition-colors duration-500">
+            <Link href="/register" className="group relative flex items-center justify-center bg-black overflow-hidden hover:bg-white/5 transition-colors duration-500">
                 <div className="relative z-10 text-center space-y-4">
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mix-blend-difference group-hover:scale-110 transition-transform duration-500">
                         <GlitchText text="INITIATE" />
@@ -44,7 +45,7 @@ const AuthPortal = () => {
                     Auth.Protocol_v2
                 </div>
 
-                <Link to="/" className="pointer-events-auto absolute bottom-8 left-1/2 -translate-x-1/2 text-xs font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">
+                <Link href="/" className="pointer-events-auto absolute bottom-8 left-1/2 -translate-x-1/2 text-xs font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">
                     Abort Protocol
                 </Link>
             </div>

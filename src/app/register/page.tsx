@@ -1,9 +1,10 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
 import GlitchText from "@/components/ui/GlitchText";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const Register = () => {
     return (
@@ -86,7 +87,7 @@ const Register = () => {
 
                 <div className="text-center pt-4 flex flex-col gap-2">
                     <span className="text-xs text-muted-foreground uppercase tracking-widest">Already Authorized?</span>
-                    <Link to="/login" className="text-xs text-primary hover:text-primary transition-colors uppercase tracking-widest font-bold">
+                    <Link href="/login" className="text-xs text-primary hover:text-primary transition-colors uppercase tracking-widest font-bold">
                         Access Protocol Login
                     </Link>
                 </div>
