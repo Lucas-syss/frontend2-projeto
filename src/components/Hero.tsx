@@ -1,9 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import HeroBackground from "./HeroBackground";
 
 const Hero = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -16,39 +26,42 @@ const Hero = () => {
   };
 
   const itemVariants = {
-    hidden: { y: 100, opacity: 0 },
+    hidden: { y: 100, opacity: 0, scale: 0.95 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+      scale: 1,
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-end">
+    <section ref={containerRef} className="relative h-screen w-full overflow-hidden flex items-end">
       <HeroBackground />
       <motion.div
-        className="relative z-10 w-full px-8 pb-16 md:pb-24"
+        className="relative z-10 w-full px-8 pb-16 md:pb-24 mix-blend-difference"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
+        style={{ y: y2, opacity }}
       >
         <div className="relative">
-          <h1 className="text-[clamp(3rem,12vw,12rem)] font-black uppercase leading-[0.85] tracking-[-0.05em] text-primary mix-blend-difference">
-            <motion.div variants={itemVariants}>FALL</motion.div>
-            <motion.div variants={itemVariants} className="ml-[10vw]">
+          <h1 className="text-[clamp(4rem,14vw,14rem)] font-display uppercase leading-[0.8] tracking-[-0.04em] text-primary">
+            <motion.div variants={itemVariants} className="glitch-hover" data-text="FALL">FALL</motion.div>
+            <motion.div variants={itemVariants} className="ml-[10vw] glitch-hover" data-text="FROM">
               FROM
             </motion.div>
             <motion.div
               variants={itemVariants}
-              className="ml-[3vw] text-primary/30"
+              className="ml-[3vw] text-primary/30 glitch-hover"
+              data-text="GRACE"
             >
               GRACE
             </motion.div>
           </h1>
           <motion.p
             variants={itemVariants}
-            className="absolute bottom-4 right-8 text-xs tracking-[0.5em] uppercase text-muted-foreground md:text-sm"
+            className="absolute bottom-4 right-8 font-mono text-xs tracking-[0.5em] uppercase text-muted-foreground md:text-sm"
           >
             FW26 — LIMITED DROP
           </motion.p>
@@ -56,7 +69,7 @@ const Hero = () => {
         <motion.a
           href="#collection"
           variants={itemVariants}
-          className="inline-block mt-10 px-8 py-3 border border-primary text-primary text-xs tracking-[0.3em] uppercase hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+          className="inline-block mt-10 px-10 py-4 border border-primary font-mono text-primary text-xs tracking-[0.3em] uppercase transition-all duration-500 hover:bg-primary hover:text-primary-foreground hover:scale-105"
         >
           EXPLORE COLLECTION
         </motion.a>

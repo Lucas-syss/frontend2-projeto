@@ -1,102 +1,95 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const Lookbook = () => {
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    const yLeft = useTransform(scrollYProgress, [0, 1], [150, -150]);
+    const yRight = useTransform(scrollYProgress, [0, 1], [-50, 250]);
+    const scaleImage = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
+
     return (
-        <section id="lookbook"  className="relative bg-black w-full min-h-screen py-24 md:py-32 overflow-hidden px-4 md:px-8">
-            <div className="max-w-7xl mx-auto w-full">
-                <div className="mb-16 md:mb-24 flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
-                    <div className="max-w-xl">
-                        <h2 className="text-4xl md:text-6xl font-black uppercase text-white mix-blend-difference tracking-tighter leading-none mb-6">
-                            Editorial <br /> Archives
+        <section id="lookbook" ref={containerRef} className="relative bg-black w-full min-h-screen py-32 overflow-hidden px-4 md:px-8 border-t border-white/10">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/5 blur-[200px] rounded-full mix-blend-screen pointer-events-none opacity-50" />
+
+            <div className="relative z-10 max-w-7xl mx-auto w-full">
+                <div className="mb-32 flex flex-col md:flex-row items-center justify-between gap-12 relative">
+                    <h2 className="text-[clamp(4rem,10vw,10rem)] font-display uppercase leading-[0.8] tracking-[-0.04em] text-white z-10 mix-blend-difference w-full">
+                        THE <br /> ARCHIVES
+                    </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start relative">
+
+                    <motion.div
+                        style={{ y: yLeft }}
+                        className="md:col-span-5 relative group mt-16 md:mt-0 z-10"
+                    >
+                        <div className="aspect-[4/5] bg-white/5 border border-white/10 overflow-hidden relative">
+                            <motion.img
+                                style={{ scale: scaleImage }}
+                                src="/model1.webp"
+                                alt="Look 01"
+                                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none" />
+                        </div>
+                        <div className="mt-6 flex flex-col gap-2">
+                            <span className="font-mono text-xs tracking-[0.3em] uppercase text-white/40">DISTRICT 9 — 01</span>
+                            <p className="text-white/80 font-mono text-sm leading-relaxed max-w-sm">
+                                Volume I. Exploring the void between organic decay and structural brutalism.
+                            </p>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        style={{ y: yRight }}
+                        className="md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8 mt-32 md:mt-48 relative group z-20"
+                    >
+                        <div className="aspect-square md:aspect-[3/4] bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl">
+                            <motion.img
+                                style={{ scale: scaleImage }}
+                                src="/modal2.webp"
+                                alt="Look 02"
+                                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none" />
+                        </div>
+                        <div className="mt-6 flex flex-col gap-2 text-right items-end">
+                            <span className="font-mono text-xs tracking-[0.3em] uppercase text-white/40">DISTRICT 9 — 02</span>
+                            <h3 className="text-2xl md:text-3xl font-display uppercase tracking-[-0.02em] text-white">
+                                Shattered Saints
+                            </h3>
+                        </div>
+                    </motion.div>
+
+                </div>
+
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-150px" }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="mt-48 md:mt-64 relative aspect-[16/9] md:aspect-[21/9] bg-white/5 border border-white/10 overflow-hidden group w-full"
+                >
+                    <img
+                        src="/look4.webp"
+                        alt="Look 04 Campaign"
+                        className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 group-hover:scale-105 object-[50%_40%]"
+                    />
+                    <div className="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-colors duration-700 pointer-events-none" />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <h2 className="text-[clamp(2rem,6vw,6rem)] font-display uppercase tracking-[-0.02em] text-white mix-blend-overlay opacity-50 select-none">
+                            ETERNAL
                         </h2>
-                        <p className="text-white/50 font-mono text-xs leading-relaxed uppercase tracking-widest">
-                            Volume I. Exploring the void between organic decay and structural brutalism. Shot on location in District 9.
-                        </p>
                     </div>
-                </div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 auto-rows-[300px] md:auto-rows-[400px]">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        className="md:col-span-8 md:row-span-2 relative group overflow-hidden bg-white/5 border border-white/10"
-                    >
-                        <img
-                            src="/model1.webp"
-                            alt="Lookbook Image 1"
-                            className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100 scale-100 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
-                        <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <span className="font-mono text-xs tracking-[0.3em] uppercase bg-white text-black px-4 py-2">
-                                LOOK // 01
-                            </span>
-                        </div>
-                    </motion.div>
-
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ delay: 0.1 }}
-                        className="md:col-span-4 relative group overflow-hidden bg-white/5 border border-white/10"
-                    >
-                        <img
-                            src="/modal2.webp"
-                            alt="Lookbook Image 2"
-                            className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100 scale-100 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
-                        <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <span className="font-mono text-xs tracking-[0.3em] uppercase bg-white text-black px-4 py-2">
-                                LOOK // 02
-                            </span>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ delay: 0.2 }}
-                        className="md:col-span-4 relative group overflow-hidden bg-white/5 border border-white/10"
-                    >
-                        <img
-                            src="/model3.webp"
-                            alt="Lookbook Image 3"
-                            className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100 scale-100 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
-                        <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <span className="font-mono text-xs tracking-[0.3em] uppercase bg-white text-black px-4 py-2">
-                                LOOK // 03
-                            </span>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        className="md:col-span-12 relative group overflow-hidden bg-white/5 border border-white/10"
-                    >
-                        <img
-                            src="/look4.webp"
-                            alt="Lookbook Image 4"
-                            className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100 scale-100 group-hover:scale-105 object-[50%_30%]"
-                        />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
-                        <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <span className="font-mono text-xs tracking-[0.3em] uppercase bg-white text-black px-4 py-2">
-                                CAMPAIGN // EXT
-                            </span>
-                        </div>
-                    </motion.div>
-
-                </div>
             </div>
         </section>
     );

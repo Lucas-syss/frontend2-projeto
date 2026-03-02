@@ -1,13 +1,7 @@
 "use client";
 import { useState } from "react";
 import ProductModal from "./ProductModal";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
+import { motion } from "framer-motion";
 
 const products = [
     {
@@ -26,7 +20,7 @@ const products = [
         id: 3,
         name: "TOMB JACKET",
         price: "€680",
-        image: "/decay-tee.webp",
+        image: "/decay-tee.webp", // keeping as in original
     },
     {
         id: 4,
@@ -51,33 +45,31 @@ const products = [
 const ProductItem = ({ product, index, onClick }: { product: typeof products[0], index: number, onClick: () => void }) => {
     return (
         <div
-            className="group relative cursor-pointer px-2"
+            className="group relative cursor-pointer"
             onClick={onClick}
         >
             <div className="relative aspect-[3/4] overflow-hidden bg-white/5 border border-white/10">
-                <img
+                <motion.img
                     src={product.image}
                     alt={product.name}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
 
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white font-mono uppercase tracking-widest text-xs border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors bg-black/40 backdrop-blur-sm">
-                        Inspect
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                    <span className="text-white font-mono uppercase tracking-[0.3em] pl-[0.3em] text-xs border border-white px-6 py-3 hover:bg-white hover:text-black transition-colors backdrop-blur-sm">
+                        VIEW ARTIFACT
                     </span>
                 </div>
             </div>
 
-            <div className="mt-4 flex flex-col items-start gap-1">
-                <span className="text-xs font-mono text-white/50 uppercase tracking-widest">
-                    0{index + 1}
-                </span>
-                <h3 className="text-xl md:text-2xl font-black uppercase text-white mix-blend-difference">
+            <div className="mt-6 flex flex-col items-start gap-2">
+                <div className="flex w-full justify-between items-center text-xs font-mono text-white/50 uppercase tracking-[0.2em]">
+                    <span>0{index + 1}</span>
+                    <span>{product.price}</span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-display uppercase text-white tracking-[-0.02em]">
                     {product.name}
                 </h3>
-                <span className="text-sm font-mono text-primary">
-                    {product.price}
-                </span>
             </div>
         </div>
     );
@@ -87,46 +79,35 @@ const ProductGrid = () => {
     const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
 
     return (
-        <section id="collection" className="relative px-4 md:px-12 py-24 min-h-screen bg-black overflow-hidden flex flex-col justify-center">
+        <section id="collection" className="relative px-4 md:px-12 py-32 min-h-screen bg-black overflow-hidden flex flex-col justify-center">
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/10 blur-[100px] rounded-full mix-blend-screen pointer-events-none" />
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_10%,transparent_100%)] opacity-50" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/5 blur-[120px] rounded-full mix-blend-screen pointer-events-none" />
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto w-full">
-                <div className="mb-12 flex items-end justify-between">
-                    <h2 className="text-4xl md:text-6xl font-black uppercase text-white mix-blend-difference tracking-tighter">
-                        The Collection
+                <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between border-b border-white/20 pb-12 gap-8">
+                    <h2 className="text-[clamp(3rem,8vw,8rem)] font-display uppercase leading-[0.8] tracking-[-0.04em] text-white">
+                        THE<br /> COLLECTION
                     </h2>
-                    <p className="hidden md:block text-zinc-500 font-mono text-xs uppercase tracking-[0.5em] mb-2">
-                        Scroll to explore
+                    <p className="md:block text-zinc-500 font-mono text-xs uppercase tracking-[0.5em] mb-2 max-w-xs md:text-right">
+                        Curated artifacts for the modern dystopia
                     </p>
                 </div>
 
-                <Carousel
-                    opts={{
-                        align: "start",
-                        loop: true,
-                    }}
-                    className="w-full"
-                >
-                    <CarouselContent className="-ml-2 md:-ml-4">
-                        {products.map((product, index) => (
-                            <CarouselItem key={product.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                                <ProductItem
-                                    product={product}
-                                    index={index}
-                                    onClick={() => setSelectedProduct(product)}
-                                />
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-
-                    <div className="hidden md:block">
-                        <CarouselPrevious className="border-white/20 bg-black/50 text-white hover:bg-white hover:text-black transition-colors" />
-                        <CarouselNext className="border-white/20 bg-black/50 text-white hover:bg-white hover:text-black transition-colors" />
-                    </div>
-                </Carousel>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-24 gap-x-12 lg:gap-x-24">
+                    {products.map((product, index) => (
+                        <motion.div
+                            key={product.id}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            className={`${index % 2 !== 0 ? 'md:mt-32' : ''}`}
+                        >
+                            <ProductItem product={product} index={index} onClick={() => setSelectedProduct(product)} />
+                        </motion.div>
+                    ))}
+                </div>
             </div>
 
             <ProductModal

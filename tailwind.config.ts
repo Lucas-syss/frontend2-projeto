@@ -61,6 +61,10 @@ export default {
         charcoal: "#1a1a1a",
         ash: "#d4d4d4",
       },
+      fontFamily: {
+        display: ["var(--font-anton)", "sans-serif"],
+        mono: ["var(--font-space-mono)", "monospace"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

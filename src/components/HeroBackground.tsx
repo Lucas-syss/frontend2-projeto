@@ -54,10 +54,10 @@ void main() {
     float dist = distance(uv, mouse);
     float mouseEffect = smoothstep(0.4, 0.0, dist) * 0.05;
     
-    float noise1 = snoise(uv * 3.0 + iTime * 0.1);
-    float noise2 = snoise(uv * 6.0 - iTime * 0.2);
+    float noise1 = snoise(uv * 3.0 + iTime * 0.03);
+    float noise2 = snoise(uv * 6.0 - iTime * 0.05);
     
-    vec2 displacement = vec2(noise1, noise2) * (0.02 + mouseEffect);
+    vec2 displacement = vec2(noise1, noise2) * (0.015 + mouseEffect);
     
     vec2 distortedUv = uv + displacement;
     
@@ -67,7 +67,7 @@ void main() {
     
     vec3 color = vec3(r, g, b);
     
-    float vignette = 1.0 - smoothstep(0.5, 1.5, length(uv - 0.5) * 1.5);
+    float vignette = 1.0 - smoothstep(0.2, 1.2, length(uv - 0.5) * 1.5);
     color *= vignette;
     
     color = mix(color, vec3(0.0), 0.3);

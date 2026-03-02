@@ -5,15 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 const Preloader = () => {
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
-    const [text, setText] = useState("INITIALIZING...");
-
-    const loadingTexts = [
-        "LOADING ASSETS...",
-        "ESTABLISHING CONNECTION...",
-        "DECRYPTING DATA...",
-        "RENDERING WORLD...",
-        "WELCOME."
-    ];
 
     useEffect(() => {
         const hasLoaded = sessionStorage.getItem("preloaderShown");
@@ -22,7 +13,7 @@ const Preloader = () => {
             return;
         }
 
-        const totalDuration = 2000;
+        const totalDuration = 2500;
         const intervalTime = 30;
         const steps = totalDuration / intervalTime;
         let currentStep = 0;
@@ -32,12 +23,6 @@ const Preloader = () => {
             const newProgress = Math.min((currentStep / steps) * 100, 100);
 
             setProgress(newProgress);
-
-            if (newProgress < 30) setText(loadingTexts[0]);
-            else if (newProgress < 50) setText(loadingTexts[1]);
-            else if (newProgress < 70) setText(loadingTexts[2]);
-            else if (newProgress < 90) setText(loadingTexts[3]);
-            else setText(loadingTexts[4]);
 
             if (currentStep >= steps) {
                 clearInterval(interval);
@@ -55,35 +40,37 @@ const Preloader = () => {
         <AnimatePresence mode="wait">
             {loading && (
                 <motion.div
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, transition: { duration: 0.5 } }}
+                    initial={{ y: 0 }}
+                    exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
                     className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black text-white px-4"
                 >
-                    <div className="w-full max-w-sm space-y-4">
-                        <motion.div
-                            className="flex justify-between text-xs font-mono uppercase tracking-widest text-white/50"
-                            animate={{ opacity: [0.5, 1, 0.5] }}
-                            transition={{ duration: 0.2, repeat: Infinity, repeatType: "reverse" }}
+                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
+
+                    <div className="flex flex-col items-center w-full max-w-4xl px-4 z-10">
+                        <motion.h1
+                            className="text-[clamp(4rem,20vw,20rem)] font-display uppercase leading-none tracking-[-0.05em]"
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
                         >
-                            <span>SYS.BOOT.v2.0</span>
-                            <span>{Math.floor(progress)}%</span>
-                        </motion.div>
+                            {Math.floor(progress)}%
+                        </motion.h1>
 
-                        <div className="h-1 w-full bg-white/10 overflow-hidden">
-                            <motion.div
-                                className="h-full bg-white"
-                                style={{ width: `${progress}%` }}
-                            />
-                        </div>
-
-                        <div className="font-mono text-sm uppercase tracking-widest text-center">
-                            {text}
+                        <div className="w-full mt-4 flex items-center gap-4">
+                            <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 shrink-0">
+                                SYS.BOOT.v2.0
+                            </span>
+                            <div className="h-[2px] bg-zinc-800 w-full relative overflow-hidden">
+                                <motion.div
+                                    className="absolute top-0 left-0 h-full bg-white"
+                                    style={{ width: `${progress}%` }}
+                                />
+                            </div>
+                            <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 shrink-0 flex gap-2">
+                                <span className="animate-pulse">●</span> LOADING
+                            </span>
                         </div>
                     </div>
-
-                    <div className="absolute inset-0 z-[-1] opacity-[0.03] bg-[url('/noise.png')] pointer-events-none mix-blend-overlay"></div>
-                    <div className="absolute inset-0 z-[-2] bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
-
                 </motion.div>
             )}
         </AnimatePresence>
