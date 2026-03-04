@@ -1,4 +1,5 @@
 import { createCallerFactory, createTRPCRouter, publicProcedure } from "@/server/api/trpc"
+import { cartRouter } from "./routers/cart"
 import { z } from "zod"
 
 /**
@@ -7,6 +8,7 @@ import { z } from "zod"
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+    cart: cartRouter,
     example: createTRPCRouter({
         hello: publicProcedure
             .input(z.object({ text: z.string() }))

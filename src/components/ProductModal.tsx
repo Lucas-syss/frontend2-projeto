@@ -1,8 +1,12 @@
 "use client";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import GlitchText from "@/components/ui/GlitchText";
+import { api } from "@/trpc/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Product {
     id: number;
@@ -18,7 +22,42 @@ interface ProductModalProps {
 }
 
 const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const { data: sessionData } = useSession();
+    const router = useRouter();
+
+    const utils = api.useUtils();
+    const addToCart = api.cart.addToCart.useMutation({
+        onSuccess: () => {
+            utils.cart.getCart.invalidate();
+            onClose(); // Optional: close modal on success, or show a toast
+        }
+    });
+
     if (!product) return null;
+
+    const numericPrice = parseFloat(product.price.replace(/[^0-9.-]+/g, ""));
+
+    const handleAddToCart = () => {
+        if (!sessionData?.user) {
+            router.push("/login"); // fallback to login if not authenticated
+            return;
+        }
+
+        if (!selectedSize) {
+            alert("Please select a size first.");
+            return;
+        }
+
+        addToCart.mutate({
+            productId: `PROD-${product.id}`,
+            name: product.name,
+            size: selectedSize,
+            price: numericPrice,
+            image: product.image,
+            quantity: 1,
+        });
+    };
 
     return createPortal(
         <AnimatePresence>
@@ -40,7 +79,7 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
                             animate={{ y: 0 }}
                             exit={{ y: "100%", opacity: 0 }}
                             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-                            className="pointer-events-auto relative w-full h-full md:h-auto max-h-[] max-w-7xl grid overflow-hidden bg-black border-none md:border md:border-white/20 md:grid-cols-2 shadow-2xl"
+                            className="pointer-events-auto relative w-full h-full md:h-auto max-h-[100vh] max-w-7xl grid overflow-hidden bg-black border-none md:border md:border-white/20 md:grid-cols-2 shadow-2xl"
                         >
                             <button
                                 onClick={onClose}
@@ -79,7 +118,11 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
                                         <p className="text-xs font-mono uppercase tracking-widest text-white/40 mb-4">Select Size</p>
                                         <div className="flex gap-4">
                                             {['S', 'M', 'L', 'XL'].map((size) => (
-                                                <button key={size} className="h-12 w-12 border border-white/20 font-display text-lg text-white hover:bg-white hover:text-black transition-colors">
+                                                <button
+                                                    key={size}
+                                                    onClick={() => setSelectedSize(size)}
+                                                    className={`h-12 w-12 border font-display text-lg transition-colors ${selectedSize === size ? 'bg-white text-black border-white' : 'border-white/20 text-white hover:bg-white/10'}`}
+                                                >
                                                     {size}
                                                 </button>
                                             ))}
@@ -87,9 +130,14 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
                                     </div>
                                 </div>
 
-                                <button className="group relative mt-16 w-full overflow-hidden bg-white px-8 py-6 text-black transition-transform active:scale-95">
-                                    <span className="relative z-10 text-sm font-display uppercase tracking-[0.2em] group-hover:text-black transition-colors">
-                                        Add to Cart — {product.price}
+                                <button
+                                    onClick={handleAddToCart}
+                                    disabled={addToCart.isPending}
+                                    className="group relative mt-16 w-full overflow-hidden bg-white px-8 py-6 text-black transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <span className="relative z-10 text-sm font-display uppercase tracking-[0.2em] group-hover:text-black transition-colors flex items-center justify-center gap-2">
+                                        {addToCart.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                                        {addToCart.isPending ? "Adding..." : `Add to Cart — ${product.price}`}
                                     </span>
                                     <div className="absolute inset-0 z-0 bg-zinc-300 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
                                 </button>

@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const { data: sessionData } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,18 +45,29 @@ const Navbar = () => {
         >
           ARCHIVE
         </Link>
-        <Link
-          href="/cart"
-          className="relative text-xs font-mono tracking-[0.3em] uppercase text-primary after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-4px] after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
-        >
-          CART
-        </Link>
-        <Link
-          href="/auth"
-          className="relative text-xs font-mono tracking-[0.3em] uppercase text-primary after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-4px] after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
-        >
-          AUTHENTICATE
-        </Link>
+        {sessionData?.user && (
+          <Link
+            href="/cart"
+            className="relative text-xs font-mono tracking-[0.3em] uppercase text-primary after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-4px] after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+          >
+            CART
+          </Link>
+        )}
+        {sessionData?.user ? (
+          <button
+            onClick={() => signOut()}
+            className="relative text-xs font-mono tracking-[0.3em] uppercase text-primary after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-4px] after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+          >
+            LOGOUT
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="relative text-xs font-mono tracking-[0.3em] uppercase text-primary after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-[-4px] after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+          >
+            AUTHENTICATE
+          </Link>
+        )}
       </div>
     </motion.nav>
   );

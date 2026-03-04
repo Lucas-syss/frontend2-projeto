@@ -1,29 +1,29 @@
 "use client";
-import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Trash2, Plus, Minus } from "lucide-react";
-
-const cartItems = [
-    {
-        id: "ITEM-001",
-        name: "WRAITH HOODIE",
-        size: "L",
-        price: 420,
-        quantity: 1,
-        image: "/wraith-hoodie.webp",
-    },
-    {
-        id: "ITEM-002",
-        name: "DECAY TEE",
-        size: "M",
-        price: 180,
-        quantity: 2,
-        image: "/decay-tee.webp",
-    },
-];
+import { api } from "@/trpc/react";
 
 const Cart = () => {
+    const utils = api.useUtils();
+    const { data: cartData, isLoading } = api.cart.getCart.useQuery();
+
+    const updateQuantity = api.cart.updateQuantity.useMutation({
+        onSuccess: () => utils.cart.getCart.invalidate(),
+    });
+
+    const removeFromCart = api.cart.removeFromCart.useMutation({
+        onSuccess: () => utils.cart.getCart.invalidate(),
+    });
+
+    const cartItems = cartData?.items || [];
+    const subtotal = cartItems.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
+    const estTotal = subtotal; // add shipping/taxes if needed
+
+    if (isLoading) {
+        return <div className="min-h-screen bg-black w-full pt-32 pb-24 px-4 flex justify-center text-white">Loading Cart...</div>;
+    }
+
     return (
         <div className="min-h-screen bg-black w-full pt-32 pb-24 px-4 md:px-8">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24">
@@ -38,12 +38,14 @@ const Cart = () => {
                             MANIFEST
                         </h1>
                         <span className="text-white/30 font-mono text-xs uppercase tracking-[0.2em] ml-auto">
-                            3 ITEMS
+                            {cartItems.length} ITEMS
                         </span>
                     </div>
 
                     <div className="flex flex-col gap-8">
-                        {cartItems.map((item, index) => (
+                        {cartItems.length === 0 ? (
+                            <p className="text-white/50 font-mono uppercase">Your manifest is empty.</p>
+                        ) : cartItems.map((item: any, index: number) => (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -60,11 +62,14 @@ const Cart = () => {
                                 <div className="flex flex-col flex-1 py-1">
                                     <div className="flex justify-between items-start">
                                         <div>
-                                            <p className="text-xs font-mono text-white/50 mb-1">{item.id}</p>
+                                            <p className="text-xs font-mono text-white/50 mb-1">{item.productId}</p>
                                             <h3 className="text-lg md:text-xl font-bold uppercase tracking-widest text-white">{item.name}</h3>
                                             <p className="text-white/50 text-xs font-mono uppercase mt-2">SIZE: {item.size}</p>
                                         </div>
-                                        <button className="text-white/30 hover:text-red-500 transition-colors">
+                                        <button
+                                            onClick={() => removeFromCart.mutate({ itemId: item.id })}
+                                            className="text-white/30 hover:text-red-500 transition-colors"
+                                        >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
                                     </div>
@@ -72,16 +77,26 @@ const Cart = () => {
                                     <div className="mt-auto flex justify-between items-end">
                                         {/* Quantity Controls */}
                                         <div className="flex items-center gap-4 border border-white/20 px-3 py-1 bg-black/50">
-                                            <button className="text-white/50 hover:text-white transition-colors">
+                                            <button
+                                                onClick={() => {
+                                                    if (item.quantity > 1) {
+                                                        updateQuantity.mutate({ itemId: item.id, quantity: item.quantity - 1 })
+                                                    }
+                                                }}
+                                                className="text-white/50 hover:text-white transition-colors"
+                                            >
                                                 <Minus className="w-3 h-3" />
                                             </button>
                                             <span className="font-mono text-sm">{item.quantity}</span>
-                                            <button className="text-white/50 hover:text-white transition-colors">
+                                            <button
+                                                onClick={() => updateQuantity.mutate({ itemId: item.id, quantity: item.quantity + 1 })}
+                                                className="text-white/50 hover:text-white transition-colors"
+                                            >
                                                 <Plus className="w-3 h-3" />
                                             </button>
                                         </div>
 
-                                        <p className="text-primary font-mono text-lg font-bold">€{item.price}</p>
+                                        <p className="text-primary font-mono text-lg font-bold">€{item.price * item.quantity}</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -99,7 +114,7 @@ const Cart = () => {
                         <div className="flex flex-col gap-4 font-mono text-sm text-white/70 mb-8">
                             <div className="flex justify-between">
                                 <span>SUBTOTAL</span>
-                                <span>€780.00</span>
+                                <span>€{subtotal.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span>SHIPPING</span>
@@ -113,7 +128,7 @@ const Cart = () => {
 
                         <div className="border-t border-white/10 pt-6 mb-8 flex justify-between items-end">
                             <span className="text-sm font-bold uppercase tracking-widest text-white">EST. TOTAL</span>
-                            <span className="text-2xl font-bold font-mono text-primary">€780.00</span>
+                            <span className="text-2xl font-bold font-mono text-primary">€{estTotal.toFixed(2)}</span>
                         </div>
 
                         <button className="w-full group relative overflow-hidden bg-white px-8 py-5 text-black transition-transform active:scale-95 flex items-center justify-between">
