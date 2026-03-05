@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArrowLeft, Trash2, Plus, Minus } from "lucide-react";
 import { api } from "@/trpc/react";
 
+
+
 const Cart = () => {
     const utils = api.useUtils();
     const { data: cartData, isLoading } = api.cart.getCart.useQuery();
@@ -18,7 +20,18 @@ const Cart = () => {
 
     const cartItems = cartData?.items || [];
     const subtotal = cartItems.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
-    const estTotal = subtotal; // add shipping/taxes if needed
+    const estTotal = subtotal; 
+
+
+    const checkout = api.stripe.createCheckoutSession.useMutation();
+
+    const handleCheckout = async () => {
+    const res = await checkout.mutateAsync({
+        items: cartItems,
+    });
+
+    window.location.href = res.url!;
+    };
 
     if (isLoading) {
         return <div className="min-h-screen bg-black w-full pt-32 pb-24 px-4 flex justify-center text-white">Loading Cart...</div>;
@@ -131,7 +144,7 @@ const Cart = () => {
                             <span className="text-2xl font-bold font-mono text-primary">€{estTotal.toFixed(2)}</span>
                         </div>
 
-                        <button className="w-full group relative overflow-hidden bg-white px-8 py-5 text-black transition-transform active:scale-95 flex items-center justify-between">
+                        <button onClick={handleCheckout} className="w-full group relative overflow-hidden bg-white px-8 py-5 text-black transition-transform active:scale-95 flex items-center justify-between">
                             <span className="relative z-10 text-sm font-black uppercase tracking-[0.3em] group-hover:text-black transition-colors">
                                 SECURE CHECKOUT
                             </span>
@@ -166,5 +179,7 @@ function ArrowRight(props: React.SVGProps<SVGSVGElement>) {
         </svg>
     )
 }
+
+
 
 export default Cart;
