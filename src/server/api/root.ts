@@ -1,25 +1,14 @@
-import { createCallerFactory, createTRPCRouter, publicProcedure } from "@/server/api/trpc"
+import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc"
 import { cartRouter } from "./routers/cart"
 import { stripeRouter } from "./routers/stripe"
-import { z } from "zod"
+import { authRouter } from "./routers/auth"
+import { orderRouter } from "./routers/order"
 
-/**
- * This is the primary router for the server.
- *
- * All routers added in /api/routers should be manually added here.
- */
 export const appRouter = createTRPCRouter({
     stripe: stripeRouter,
     cart: cartRouter,
-    example: createTRPCRouter({
-        hello: publicProcedure
-            .input(z.object({ text: z.string() }))
-            .query(({ input }) => {
-                return {
-                    greeting: `Hello ${input.text}`,
-                }
-            }),
-    }),
+    auth: authRouter,
+    order: orderRouter,
 })
 
 export type AppRouter = typeof appRouter

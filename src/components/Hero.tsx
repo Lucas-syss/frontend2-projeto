@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import HeroBackground from "./HeroBackground";
 
 const Hero = () => {
@@ -14,24 +14,42 @@ const Hero = () => {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+  // Fix 4: Skip animation delay if it has already played in this session
+  const [skipAnimation, setSkipAnimation] = useState(false);
+
+  useEffect(() => {
+    const hasAnimated = sessionStorage.getItem("heroAnimated");
+    if (hasAnimated) {
+      setSkipAnimation(true);
+    } else {
+      // Mark as animated after the animation completes (3.5s delay + ~1.2s animation ≈ 5s)
+      const timer = setTimeout(() => {
+        sessionStorage.setItem("heroAnimated", "true");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.2,
-        delayChildren: 3.5,
+        delayChildren: skipAnimation ? 0 : 3.5,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 100, opacity: 0, scale: 0.95 },
+    hidden: skipAnimation ? { y: 0, opacity: 1, scale: 1 } : { y: 100, opacity: 0, scale: 0.95 },
     visible: {
       y: 0,
       opacity: 1,
       scale: 1,
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+      transition: skipAnimation
+        ? { duration: 0 }
+        : { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
     },
   };
 

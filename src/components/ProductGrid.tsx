@@ -20,7 +20,7 @@ const products = [
         id: 3,
         name: "TOMB JACKET",
         price: "€680",
-        image: "/decay-tee.webp", // keeping as in original
+        image: "/tomb-jacket.webp",
     },
     {
         id: 4,
@@ -56,7 +56,7 @@ const ProductItem = ({ product, index, onClick }: { product: typeof products[0],
                 />
 
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                    <span className="text-white font-mono uppercase tracking-[0.3em] pl-[0.3em] text-xs border border-white px-6 py-3 hover:bg-white hover:text-black transition-colors backdrop-blur-sm">
+                    <span className="text-white font-mono uppercase tracking-[0.3em] text-xs border border-white px-6 py-3 hover:bg-white hover:text-black transition-colors backdrop-blur-sm">
                         VIEW ARTIFACT
                     </span>
                 </div>

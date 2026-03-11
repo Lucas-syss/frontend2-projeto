@@ -31,21 +31,21 @@ const Statement = () => {
                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-px h-12 bg-white/20" />
 
                     <h3 className="text-lg md:text-2xl font-mono uppercase tracking-[0.2em] text-primary mb-8">
-                        Manifesto_01
+                        The Ethos
                     </h3>
 
                     <p className="text-2xl md:text-5xl font-bold leading-tight uppercase text-white mix-blend-difference">
-                        Using <span className="text-white/40">chaos</span> as a medium.
+                        Built for the <span className="text-white/40">bold</span>.
                         <br />
-                        We don't create for the <span className="italic">comfortable</span>.
+                        Not for the <span className="italic">comfortable</span>.
                         <br />
-                        We create for the <span className="line-through decoration-primary">broken</span>.
+                        Made to <span className="line-through decoration-primary">last</span>.
                     </p>
 
                     <p className="mt-12 text-sm md:text-base text-white/60 font-mono tracking-widest max-w-2xl mx-auto leading-relaxed">
-                        In a world obsessed with polish, we worship the glitch.
-                        Every thread is a rebellion against the pristine.
-                        Wear your scars correctly.
+                        Every piece is designed with intention.
+                        Raw materials. Precise construction.
+                        Wear it your way.
                     </p>
 
                     <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-px h-12 bg-white/20" />

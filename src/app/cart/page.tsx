@@ -20,17 +20,17 @@ const Cart = () => {
 
     const cartItems = cartData?.items || [];
     const subtotal = cartItems.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
-    const estTotal = subtotal; 
+    const estTotal = subtotal;
 
 
     const checkout = api.stripe.createCheckoutSession.useMutation();
 
     const handleCheckout = async () => {
-    const res = await checkout.mutateAsync({
-        items: cartItems,
-    });
+        const res = await checkout.mutateAsync({
+            items: cartItems,
+        });
 
-    window.location.href = res.url!;
+        window.location.href = res.url!;
     };
 
     if (isLoading) {
@@ -48,7 +48,7 @@ const Cart = () => {
                             <ArrowLeft className="w-5 h-5" />
                         </Link>
                         <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
-                            MANIFEST
+                            YOUR CART
                         </h1>
                         <span className="text-white/30 font-mono text-xs uppercase tracking-[0.2em] ml-auto">
                             {cartItems.length} ITEMS
@@ -57,7 +57,7 @@ const Cart = () => {
 
                     <div className="flex flex-col gap-8">
                         {cartItems.length === 0 ? (
-                            <p className="text-white/50 font-mono uppercase">Your manifest is empty.</p>
+                            <p className="text-white/50 font-mono uppercase">Your cart is empty.</p>
                         ) : cartItems.map((item: any, index: number) => (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
