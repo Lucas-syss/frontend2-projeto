@@ -19,7 +19,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "StoneSaints™ — High-End Grunge Apparel",
+    title: "StoneSaints™",
     description: "StoneSaints™ — Limited drops of premium grunge streetwear. Shop hoodies, tees, jackets and accessories.",
     keywords: ["streetwear", "grunge", "fashion", "limited edition", "premium apparel"],
     openGraph: {
