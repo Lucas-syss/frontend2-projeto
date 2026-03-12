@@ -63,12 +63,12 @@ const Navbar = () => {
       {sessionData?.user && (
         <Link
           href="/cart"
-          className={`${linkClass} relative inline-flex items-center gap-1`}
+          className={`${linkClass} relative inline-flex items-center gap-1 pr-1`}
           onClick={() => setMobileOpen(false)}
         >
           CART
           {cartCount > 0 && (
-            <span className="inline-flex items-center justify-center w-4 h-4 text-[9px] font-bold bg-white text-black rounded-full leading-none ml-1">
+            <span className="absolute -top-2 -right-3.5 flex items-center justify-center w-4 h-4 text-[9px] font-bold bg-white text-black rounded-full leading-none">
               {cartCount > 99 ? "99+" : cartCount}
             </span>
           )}
@@ -103,8 +103,8 @@ const Navbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-6 transition-all duration-500 ${scrolled
-            ? "bg-black/60 backdrop-blur-md border-b border-white/10"
-            : "bg-transparent mix-blend-difference"
+          ? "bg-black/60 backdrop-blur-md border-b border-white/10"
+          : "bg-transparent mix-blend-difference"
           }`}
       >
         <Link href="/" className="flex items-center gap-3">
@@ -157,13 +157,13 @@ const Navbar = () => {
               {sessionData?.user && (
                 <Link
                   href="/cart"
-                  className="font-mono tracking-[0.3em] uppercase text-primary hover:text-primary/70 transition-colors flex items-center gap-2"
+                  className="relative font-mono tracking-[0.3em] uppercase text-primary hover:text-primary/70 transition-colors flex items-center gap-2 pr-2"
                   onClick={() => setMobileOpen(false)}
                 >
                   <ShoppingBag className="w-5 h-5" />
                   CART
                   {cartCount > 0 && (
-                    <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold bg-white text-black rounded-full">
+                    <span className="absolute -top-2 -right-4 flex items-center justify-center w-5 h-5 text-[10px] font-bold bg-white text-black rounded-full">
                       {cartCount > 99 ? "99+" : cartCount}
                     </span>
                   )}

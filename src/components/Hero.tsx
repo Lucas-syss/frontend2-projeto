@@ -22,11 +22,7 @@ const Hero = () => {
     if (hasAnimated) {
       setSkipAnimation(true);
     } else {
-      // Mark as animated after the animation completes (3.5s delay + ~1.2s animation ≈ 5s)
-      const timer = setTimeout(() => {
-        sessionStorage.setItem("heroAnimated", "true");
-      }, 5000);
-      return () => clearTimeout(timer);
+      sessionStorage.setItem("heroAnimated", "true");
     }
   }, []);
 

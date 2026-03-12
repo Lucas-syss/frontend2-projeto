@@ -148,8 +148,8 @@ const HeroBackground = () => {
         const iMouseLocation = gl.getUniformLocation(program, "iMouse");
 
         const resize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = 1920;
+            canvas.height = 1080;
             gl.viewport(0, 0, canvas.width, canvas.height);
         };
         window.addEventListener('resize', resize);
