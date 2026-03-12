@@ -56,7 +56,7 @@ const Lookbook = () => {
                                 style={{ scale: scaleImage }}
                                 src="/modal2.webp"
                                 alt="Look 02"
-                                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
+                                className="w-full h-full object-cover filter grayscale transition-all duration-700"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none" />
                         </div>
@@ -69,27 +69,6 @@ const Lookbook = () => {
                     </motion.div>
 
                 </div>
-
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-150px" }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="mt-48 md:mt-64 relative aspect-[16/9] md:aspect-[21/9] bg-white/5 border border-white/10 overflow-hidden group w-full"
-                >
-                    <img
-                        src="/look4.webp"
-                        alt="Look 04 Campaign"
-                        className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000 group-hover:scale-105 object-[50%_40%]"
-                    />
-                    <div className="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-colors duration-700 pointer-events-none" />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <h2 className="text-[clamp(2rem,6vw,6rem)] font-display uppercase tracking-[-0.02em] text-white mix-blend-overlay opacity-50 select-none">
-                            ETERNAL
-                        </h2>
-                    </div>
-                </motion.div>
-
             </div>
         </section>
     );

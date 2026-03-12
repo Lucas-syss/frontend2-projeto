@@ -93,4 +93,64 @@ export const cartRouter = createTRPCRouter({
                 where: { id: input.itemId },
             });
         }),
+
+    syncCart: protectedProcedure
+        .input(
+            z.array(
+                z.object({
+                    productId: z.string(),
+                    name: z.string(),
+                    size: z.string(),
+                    price: z.number(),
+                    quantity: z.number(),
+                    image: z.string(),
+                })
+            )
+        )
+        .mutation(async ({ ctx, input }) => {
+            if (input.length === 0) return { success: true };
+
+            let cart = await ctx.db.cart.findUnique({
+                where: { userId: ctx.session.user.id },
+            });
+
+            if (!cart) {
+                cart = await ctx.db.cart.create({
+                    data: { userId: ctx.session.user.id as string },
+                });
+            }
+
+            for (const item of input) {
+                const existing = await ctx.db.cartItem.findUnique({
+                    where: {
+                        cartId_productId_size: {
+                            cartId: cart.id,
+                            productId: item.productId,
+                            size: item.size,
+                        },
+                    },
+                });
+
+                if (existing) {
+                    await ctx.db.cartItem.update({
+                        where: { id: existing.id },
+                        data: { quantity: existing.quantity + item.quantity },
+                    });
+                } else {
+                    await ctx.db.cartItem.create({
+                        data: {
+                            cartId: cart.id,
+                            productId: item.productId,
+                            name: item.name,
+                            size: item.size,
+                            price: item.price,
+                            quantity: item.quantity,
+                            image: item.image,
+                        },
+                    });
+                }
+            }
+
+            return { success: true };
+        }),
 });

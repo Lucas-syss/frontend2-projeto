@@ -1,14 +1,23 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Trash2, Plus, Minus } from "lucide-react";
+import { ArrowLeft, Trash2, Plus, Minus, Loader2 } from "lucide-react";
 import { api } from "@/trpc/react";
+import { useSession } from "next-auth/react";
+import { useCartStore } from "@/store/useCartStore";
+import { useRouter } from "next/navigation";
 
 
 
 const Cart = () => {
+    const { data: sessionData } = useSession();
+    const router = useRouter();
     const utils = api.useUtils();
-    const { data: cartData, isLoading } = api.cart.getCart.useQuery();
+
+    // Remote Cart
+    const { data: cartData, isLoading } = api.cart.getCart.useQuery(undefined, {
+        enabled: !!sessionData?.user
+    });
 
     const updateQuantity = api.cart.updateQuantity.useMutation({
         onSuccess: () => utils.cart.getCart.invalidate(),
@@ -18,7 +27,12 @@ const Cart = () => {
         onSuccess: () => utils.cart.getCart.invalidate(),
     });
 
-    const cartItems = cartData?.items || [];
+    // Local Cart
+    const localCart = useCartStore();
+
+    // Determine actively displayed cart items
+    const cartItems = sessionData?.user ? (cartData?.items || []) : localCart.items;
+
     const subtotal = cartItems.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
     const estTotal = subtotal;
 
@@ -26,6 +40,13 @@ const Cart = () => {
     const checkout = api.stripe.createCheckoutSession.useMutation();
 
     const handleCheckout = async () => {
+        if (cartItems.length === 0) return;
+
+        if (!sessionData?.user) {
+            router.push("/login?redirect=/cart");
+            return;
+        }
+
         const res = await checkout.mutateAsync({
             items: cartItems,
         });
@@ -33,15 +54,15 @@ const Cart = () => {
         window.location.href = res.url!;
     };
 
-    if (isLoading) {
-        return <div className="min-h-screen bg-black w-full pt-32 pb-24 px-4 flex justify-center text-white">Loading Cart...</div>;
+    if (isLoading && sessionData?.user) {
+        return <div className="min-h-screen bg-black w-full pt-32 pb-24 px-4 flex justify-center text-white"><Loader2 className="w-6 h-6 animate-spin text-white/50" /></div>;
     }
 
     return (
         <div className="min-h-screen bg-black w-full pt-32 pb-24 px-4 md:px-8">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24">
 
-                {/* Left Column: Cart Items */}
+
                 <div className="flex-1 w-full">
                     <div className="flex items-center gap-4 mb-12">
                         <Link href="/" className="text-white/50 hover:text-white transition-colors">
@@ -66,12 +87,12 @@ const Cart = () => {
                                 key={item.id}
                                 className="flex gap-6 border border-white/10 bg-white/5 p-4 relative group"
                             >
-                                {/* Item Image */}
+
                                 <div className="w-24 h-32 md:w-32 md:h-40 bg-black/50 overflow-hidden border border-white/5 shrink-0">
                                     <img src={item.image} alt={item.name} className="w-full h-full object-cover filter grayscale opacity-80" />
                                 </div>
 
-                                {/* Item Details */}
+
                                 <div className="flex flex-col flex-1 py-1">
                                     <div className="flex justify-between items-start">
                                         <div>
@@ -80,7 +101,13 @@ const Cart = () => {
                                             <p className="text-white/50 text-xs font-mono uppercase mt-2">SIZE: {item.size}</p>
                                         </div>
                                         <button
-                                            onClick={() => removeFromCart.mutate({ itemId: item.id })}
+                                            onClick={() => {
+                                                if (sessionData?.user) {
+                                                    removeFromCart.mutate({ itemId: item.id });
+                                                } else {
+                                                    localCart.removeItem(item.id);
+                                                }
+                                            }}
                                             className="text-white/30 hover:text-red-500 transition-colors"
                                         >
                                             <Trash2 className="w-4 h-4" />
@@ -93,7 +120,11 @@ const Cart = () => {
                                             <button
                                                 onClick={() => {
                                                     if (item.quantity > 1) {
-                                                        updateQuantity.mutate({ itemId: item.id, quantity: item.quantity - 1 })
+                                                        if (sessionData?.user) {
+                                                            updateQuantity.mutate({ itemId: item.id, quantity: item.quantity - 1 })
+                                                        } else {
+                                                            localCart.updateQuantity(item.id, item.quantity - 1);
+                                                        }
                                                     }
                                                 }}
                                                 className="text-white/50 hover:text-white transition-colors"
@@ -102,7 +133,13 @@ const Cart = () => {
                                             </button>
                                             <span className="font-mono text-sm">{item.quantity}</span>
                                             <button
-                                                onClick={() => updateQuantity.mutate({ itemId: item.id, quantity: item.quantity + 1 })}
+                                                onClick={() => {
+                                                    if (sessionData?.user) {
+                                                        updateQuantity.mutate({ itemId: item.id, quantity: item.quantity + 1 });
+                                                    } else {
+                                                        localCart.updateQuantity(item.id, item.quantity + 1);
+                                                    }
+                                                }}
                                                 className="text-white/50 hover:text-white transition-colors"
                                             >
                                                 <Plus className="w-3 h-3" />
@@ -117,7 +154,7 @@ const Cart = () => {
                     </div>
                 </div>
 
-                {/* Right Column: Order Summary */}
+
                 <div className="w-full lg:w-[400px] shrink-0">
                     <div className="sticky top-32 border border-white/10 bg-white/5 p-8">
                         <h2 className="text-xl font-bold uppercase tracking-[0.2em] text-white mb-8 border-b border-white/10 pb-4">
@@ -144,9 +181,14 @@ const Cart = () => {
                             <span className="text-2xl font-bold font-mono text-primary">€{estTotal.toFixed(2)}</span>
                         </div>
 
-                        <button onClick={handleCheckout} className="w-full group relative overflow-hidden bg-white px-8 py-5 text-black transition-transform active:scale-95 flex items-center justify-between">
-                            <span className="relative z-10 text-sm font-black uppercase tracking-[0.3em] group-hover:text-black transition-colors">
-                                SECURE CHECKOUT
+                        <button
+                            onClick={handleCheckout}
+                            disabled={cartItems.length === 0 || checkout.isPending}
+                            className="w-full group relative overflow-hidden bg-white px-8 py-5 text-black transition-transform active:scale-95 flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+                        >
+                            <span className="relative z-10 text-sm font-black uppercase tracking-[0.3em] group-hover:text-black transition-colors flex items-center gap-2">
+                                {checkout.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+                                {!sessionData?.user && cartItems.length > 0 ? "SIGN IN TO CHECKOUT" : "SECURE CHECKOUT"}
                             </span>
                             <ArrowRight className="w-5 h-5 relative z-10" />
                             <div className="absolute inset-0 z-0 bg-primary translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
@@ -169,8 +211,6 @@ const Cart = () => {
     );
 };
 
-// Extracted ArrowRight icon to avoid importing an entirely new library just for an icon if not strictly necessary, 
-// though lucide-react is used above, in case lucide goes missing
 function ArrowRight(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" {...props}>

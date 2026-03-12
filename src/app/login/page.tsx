@@ -6,12 +6,18 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useCartStore } from "@/store/useCartStore";
+import { api } from "@/trpc/react";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const localCart = useCartStore();
+    const syncCart = api.cart.syncCart.useMutation();
 
     const handleCredentials = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -22,10 +28,26 @@ const Login = () => {
             password,
             redirect: false,
         });
-        setLoading(false);
+
         if (result?.error) {
             setError("Invalid email or password.");
+            setLoading(false);
+            toast.error("ACCESS DENIED", {
+                description: "INVALID CREDENTIALS",
+                className: "bg-destructive border border-destructive/20 text-white font-mono rounded-none uppercase",
+            });
         } else {
+            // Success - sync local cart
+            toast.success("SYSTEM ACCESS GRANTED", {
+                description: `Welcome back.`,
+                className: "bg-black border border-white/20 text-primary font-mono rounded-none uppercase",
+            });
+
+            if (localCart.items.length > 0) {
+                await syncCart.mutateAsync(localCart.items);
+                localCart.clearCart();
+            }
+
             window.location.href = "/";
         }
     };

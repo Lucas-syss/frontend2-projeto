@@ -20,7 +20,7 @@ const products = [
         id: 3,
         name: "TOMB JACKET",
         price: "€680",
-        image: "/tomb-jacket.webp",
+        image: "/wraith-hoodie.webp",
     },
     {
         id: 4,

@@ -7,6 +7,8 @@ import GlitchText from "@/components/ui/GlitchText";
 import { api } from "@/trpc/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useCartStore } from "@/store/useCartStore";
 
 interface Product {
     id: number;
@@ -27,10 +29,22 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
     const router = useRouter();
 
     const utils = api.useUtils();
+    const localCart = useCartStore();
+
     const addToCart = api.cart.addToCart.useMutation({
         onSuccess: () => {
             utils.cart.getCart.invalidate();
-            onClose(); // Optional: close modal on success, or show a toast
+            toast.success(`${product?.name} ADDED TO CART`, {
+                description: `Size: ${selectedSize}`,
+                className: "bg-black border border-white/20 text-white font-mono rounded-none",
+            });
+            onClose();
+        },
+        onError: () => {
+            toast.error("SYSTEM ERROR", {
+                description: "FAILED TO ADD ITEM TO CART",
+                className: "bg-destructive border border-destructive/20 text-white font-mono rounded-none uppercase",
+            });
         }
     });
 
@@ -39,16 +53,34 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
     const numericPrice = parseFloat(product.price.replace(/[^0-9.-]+/g, ""));
 
     const handleAddToCart = () => {
-        if (!sessionData?.user) {
-            router.push("/login"); // fallback to login if not authenticated
-            return;
-        }
-
         if (!selectedSize) {
-            alert("Please select a size first.");
+            toast.error("SELECTION REQUIRED", {
+                description: "PLEASE SELECT A SIZE TO CONTINUE",
+                className: "bg-black border border-white/20 text-white font-mono rounded-none uppercase",
+            });
             return;
         }
 
+        if (!sessionData?.user) {
+            // Unauthenticated Guest: Add to Zustand
+            localCart.addItem({
+                productId: `PROD-${product.id}`,
+                name: product.name,
+                size: selectedSize,
+                price: numericPrice,
+                image: product.image,
+                quantity: 1
+            });
+
+            toast.success(`${product.name} SECURED`, {
+                description: `Size: ${selectedSize} | Added to local cart.`,
+                className: "bg-black border border-white/20 text-primary font-mono rounded-none uppercase",
+            });
+            onClose();
+            return;
+        }
+
+        // Authenticated User: Add to DB via tRPC
         addToCart.mutate({
             productId: `PROD-${product.id}`,
             name: product.name,

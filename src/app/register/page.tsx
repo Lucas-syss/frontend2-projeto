@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { api } from "@/trpc/react";
+import { toast } from "sonner";
+import { useCartStore } from "@/store/useCartStore";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -41,6 +43,10 @@ const Register = () => {
         setError("");
         if (password !== confirm) {
             setError("Passwords do not match.");
+            toast.error("VALIDATION FAILED", {
+                description: "PASSWORDS DO NOT MATCH",
+                className: "bg-destructive border border-destructive/20 text-white font-mono rounded-none uppercase",
+            });
             return;
         }
         if (password.length < 8) {

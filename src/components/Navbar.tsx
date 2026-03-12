@@ -5,18 +5,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSession, signOut } from "next-auth/react";
 import { api } from "@/trpc/react";
 import { Menu, X, ShoppingBag } from "lucide-react";
+import { useCartStore } from "@/store/useCartStore";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { data: sessionData } = useSession();
 
-  // Fix 5: Fetch cart item count
   const { data: cartData } = api.cart.getCart.useQuery(undefined, {
     enabled: !!sessionData?.user,
   });
-  const cartCount =
+
+  const localCartItems = useCartStore((state) => state.getTotalItems());
+
+  const dbCartCount =
     cartData?.items?.reduce((acc, item) => acc + item.quantity, 0) ?? 0;
+
+  const cartCount = sessionData?.user ? dbCartCount : localCartItems;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,7 +31,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on scroll
+
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -60,20 +65,18 @@ const Navbar = () => {
       >
         ARCHIVE
       </Link>
-      {sessionData?.user && (
-        <Link
-          href="/cart"
-          className={`${linkClass} relative inline-flex items-center gap-1 pr-1`}
-          onClick={() => setMobileOpen(false)}
-        >
-          CART
-          {cartCount > 0 && (
-            <span className="absolute -top-2 -right-3.5 flex items-center justify-center w-4 h-4 text-[9px] font-bold bg-white text-black rounded-full leading-none">
-              {cartCount > 99 ? "99+" : cartCount}
-            </span>
-          )}
-        </Link>
-      )}
+      <Link
+        href="/cart"
+        className={`${linkClass} relative inline-flex items-center gap-1 pr-1`}
+        onClick={() => setMobileOpen(false)}
+      >
+        CART
+        {cartCount > 0 && (
+          <span className="absolute -top-2 -right-3.5 flex items-center justify-center w-4 h-4 text-[9px] font-bold bg-white text-black rounded-full leading-none">
+            {cartCount > 99 ? "99+" : cartCount}
+          </span>
+        )}
+      </Link>
       {sessionData?.user ? (
         <button
           onClick={() => {
@@ -113,10 +116,16 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop nav */}
+        {sessionData?.user && (
+          <span className="hidden md:block text-sm font-mono uppercase tracking-wide text-primary/80">
+            Welcome, {sessionData.user.name}
+          </span>
+        )}
+
+
         <div className="hidden md:flex items-center gap-8">{navLinks}</div>
 
-        {/* Mobile hamburger */}
+
         <button
           className="md:hidden text-primary p-1"
           onClick={() => setMobileOpen((v) => !v)}
@@ -126,7 +135,7 @@ const Navbar = () => {
         </button>
       </motion.nav>
 
-      {/* Fix 6: Mobile full-screen menu */}
+
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -137,6 +146,12 @@ const Navbar = () => {
             className="fixed inset-0 z-40 bg-black/95 backdrop-blur-lg flex flex-col items-center justify-center gap-10"
           >
             <div className="flex flex-col items-center gap-8 text-2xl">
+
+              {sessionData?.user && (
+                <span className="font-mono tracking-[0.3em] uppercase text-primary/80">
+                  Welcome, {sessionData.user.name}
+                </span>
+              )}
               {["COLLECTION", "LOOKBOOK"].map((link) => (
                 <a
                   key={link}
@@ -154,21 +169,19 @@ const Navbar = () => {
               >
                 ARCHIVE
               </Link>
-              {sessionData?.user && (
-                <Link
-                  href="/cart"
-                  className="relative font-mono tracking-[0.3em] uppercase text-primary hover:text-primary/70 transition-colors flex items-center gap-2 pr-2"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <ShoppingBag className="w-5 h-5" />
-                  CART
-                  {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-4 flex items-center justify-center w-5 h-5 text-[10px] font-bold bg-white text-black rounded-full">
-                      {cartCount > 99 ? "99+" : cartCount}
-                    </span>
-                  )}
-                </Link>
-              )}
+              <Link
+                href="/cart"
+                className="relative font-mono tracking-[0.3em] uppercase text-primary hover:text-primary/70 transition-colors flex items-center gap-2 pr-2"
+                onClick={() => setMobileOpen(false)}
+              >
+                <ShoppingBag className="w-5 h-5" />
+                CART
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-4 flex items-center justify-center w-5 h-5 text-[10px] font-bold bg-white text-black rounded-full">
+                    {cartCount > 99 ? "99+" : cartCount}
+                  </span>
+                )}
+              </Link>
               {sessionData?.user ? (
                 <button
                   onClick={() => {

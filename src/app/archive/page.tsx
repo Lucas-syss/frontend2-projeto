@@ -71,7 +71,7 @@ const Archive = () => {
                             ORDER HISTORY
                         </h2>
                         {sessionData?.user && (
-                            <span className="text-xs font-mono text-white/40">
+                            <span className="text-md font-mono text-white/40">
                                 {sessionData.user.name ?? sessionData.user.email}
                             </span>
                         )}
