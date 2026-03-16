@@ -41,9 +41,15 @@ const Footer = () => {
             </div>
 
             <div className="mt-16 flex items-center justify-between border-t border-border pt-6">
-                <p className="text-xs text-muted-foreground/40 font-mono">
-                    © 2026 STONESAINTS. ALL RIGHTS RESERVED.
-                </p>
+                <div className="flex flex-col gap-2 relative z-10">
+                    <p className="text-xs text-muted-foreground/40 font-mono">
+                        © 2026 STONESAINTS. ALL RIGHTS RESERVED.
+                    </p>
+                    <div className="flex gap-4 mt-1">
+                        <a href="/terms" className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 hover:text-primary transition-colors">TERMS OF SERVICE</a>
+                        <a href="/privacy" className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 hover:text-primary transition-colors">PRIVACY POLICY</a>
+                    </div>
+                </div>
                 <div className="flex gap-6">
                     {["IG", "TW", "TK"].map((social) => (
                         <a
