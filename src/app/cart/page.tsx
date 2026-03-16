@@ -14,7 +14,6 @@ const Cart = () => {
     const router = useRouter();
     const utils = api.useUtils();
 
-    // Remote Cart
     const { data: cartData, isLoading } = api.cart.getCart.useQuery(undefined, {
         enabled: !!sessionData?.user
     });
@@ -27,10 +26,8 @@ const Cart = () => {
         onSuccess: () => utils.cart.getCart.invalidate(),
     });
 
-    // Local Cart
     const localCart = useCartStore();
 
-    // Determine actively displayed cart items
     const cartItems = sessionData?.user ? (cartData?.items || []) : localCart.items;
 
     const subtotal = cartItems.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
