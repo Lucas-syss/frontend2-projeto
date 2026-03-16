@@ -27,19 +27,26 @@ export const stripeRouter = createTRPCRouter({
                 metadata: {
                     userId: ctx.session.user.id as string
                 },
-                line_items: input.items.map((item) => ({
-                    price_data: {
-                        currency: "eur",
-                        product_data: {
-                            name: item.name,
-                            images: [item.image]
+                line_items: input.items.map((item) => {
+                    const baseUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? "";
+                    const imageUrl = item.image.startsWith("http")
+                        ? item.image
+                        : `${baseUrl}${item.image.startsWith("/") ? "" : "/"}${item.image}`;
+
+                    return {
+                        price_data: {
+                            currency: "eur",
+                            product_data: {
+                                name: item.name,
+                                images: [imageUrl]
+                            },
+                            unit_amount: Math.round(item.price * 100),
                         },
-                        unit_amount: Math.round(item.price * 100),
-                    },
-                    quantity: item.quantity,
-                })),
-                success_url: `${process.env.NEXT_PUBLIC_APP_URL}/archive?success=true`,
-                cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cart?canceled=true`,
+                        quantity: item.quantity,
+                    };
+                }),
+                success_url: `${process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? ""}/archive?success=true`,
+                cancel_url: `${process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? ""}/cart?canceled=true`,
             });
 
             return { url: session.url };

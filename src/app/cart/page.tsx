@@ -112,7 +112,6 @@ const Cart = () => {
                                     </div>
 
                                     <div className="mt-auto flex justify-between items-end">
-                                        {/* Quantity Controls */}
                                         <div className="flex items-center gap-4 border border-white/20 px-3 py-1 bg-black/50">
                                             <button
                                                 onClick={() => {

@@ -35,7 +35,6 @@ export async function POST(req: Request) {
                 return new NextResponse("No user ID", { status: 400 });
             }
 
-            // Execute DB transaction
             await db.$transaction(async (tx) => {
                 const cart = await tx.cart.findUnique({
                     where: { userId },
@@ -48,7 +47,6 @@ export async function POST(req: Request) {
 
                 const total = cart.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-                // Create the processing order
                 await tx.order.create({
                     data: {
                         userId,
@@ -67,7 +65,6 @@ export async function POST(req: Request) {
                     },
                 });
 
-                // Clear out the cart
                 await tx.cartItem.deleteMany({
                     where: { cartId: cart.id },
                 });

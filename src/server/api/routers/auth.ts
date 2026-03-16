@@ -19,7 +19,7 @@ export const authRouter = createTRPCRouter({
             if (existing) {
                 throw new TRPCError({
                     code: "CONFLICT",
-                    message: "An account with this email already exists.",
+                    message: "This email is invalid.",
                 });
             }
             const hashed = await bcrypt.hash(input.password, 12);
