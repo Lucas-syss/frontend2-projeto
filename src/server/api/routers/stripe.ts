@@ -33,7 +33,7 @@ export const stripeRouter = createTRPCRouter({
                         ? item.image
                         : `${baseUrl}${item.image.startsWith("/") ? "" : "/"}${item.image}`;
 
-                    return {
+                    return {    
                         price_data: {
                             currency: "eur",
                             product_data: {

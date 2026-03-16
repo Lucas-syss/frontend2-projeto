@@ -16,8 +16,10 @@ const Hero = () => {
 
   // Fix 4: Skip animation delay if it has already played in this session
   const [skipAnimation, setSkipAnimation] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const hasAnimated = sessionStorage.getItem("heroAnimated");
     if (hasAnimated) {
       setSkipAnimation(true);
@@ -49,10 +51,19 @@ const Hero = () => {
     },
   };
 
+  if (!mounted) {
+    return (
+      <section ref={containerRef} className="relative h-screen w-full overflow-hidden flex items-end">
+        <HeroBackground />
+      </section>
+    ); // Avoid hydration mismatch or flashing by waiting a tick
+  }
+
   return (
     <section ref={containerRef} className="relative h-screen w-full overflow-hidden flex items-end">
       <HeroBackground />
       <motion.div
+        key={skipAnimation ? "skipped" : "animated"}
         className="relative z-10 w-full px-8 pb-16 md:pb-24 mix-blend-difference"
         variants={containerVariants}
         initial="hidden"

@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import { api } from "@/trpc/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { Suspense } from "react";
+import { CheckoutSuccessHandler } from "./CheckoutSuccessHandler";
 
 const statusStyle = (status: string) => {
     if (status === "PROCESSING") return "border-primary text-primary animate-pulse";
@@ -52,6 +54,9 @@ const Archive = () => {
     return (
         <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
             <Navbar />
+            <Suspense fallback={null}>
+                <CheckoutSuccessHandler />
+            </Suspense>
 
             <section className="relative h-[60vh] w-full overflow-hidden flex items-end">
                 <HeroBackground />
