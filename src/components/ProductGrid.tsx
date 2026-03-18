@@ -16,30 +16,6 @@ const products = [
         price: "€180",
         image: "/decay-tee.webp",
     },
-    {
-        id: 3,
-        name: "TOMB JACKET",
-        price: "€680",
-        image: "/wraith-hoodie.webp",
-    },
-    {
-        id: 4,
-        name: "RUIN VEST",
-        price: "€290",
-        image: "/ruin-vest.webp",
-    },
-    {
-        id: 5,
-        name: "SAINT BRACELET",
-        price: "€110",
-        image: "/bound-bracelet.webp",
-    },
-    {
-        id: 6,
-        name: "RUGGED RINGS",
-        price: "€50",
-        image: "/rugged-rings.webp",
-    },
 ];
 
 const ProductItem = ({ product, index, onClick }: { product: typeof products[0], index: number, onClick: () => void }) => {
