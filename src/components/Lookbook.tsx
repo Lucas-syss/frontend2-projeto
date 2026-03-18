@@ -20,7 +20,7 @@ const Lookbook = () => {
             <div className="relative z-10 max-w-7xl mx-auto w-full">
                 <div className="mb-32 flex flex-col md:flex-row items-center justify-between gap-12 relative">
                     <h2 className="text-[clamp(4rem,10vw,10rem)] font-display uppercase leading-[0.8] tracking-[-0.04em] text-white z-10 mix-blend-difference w-full">
-                        THE <br /> ARCHIVES
+                        THE <br /> CAMPAIGN
                     </h2>
                 </div>
 
@@ -40,9 +40,9 @@ const Lookbook = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none" />
                         </div>
                         <div className="mt-6 flex flex-col gap-2">
-                            <span className="font-mono text-xs tracking-[0.3em] uppercase text-white/40">DISTRICT 9 — 01</span>
+                            <span className="font-mono text-xs tracking-[0.3em] uppercase text-white/40">FW26 CAMPAIGN — 01</span>
                             <p className="text-white/80 font-mono text-sm leading-relaxed max-w-sm">
-                                Volume I. Exploring the void between organic decay and structural brutalism.
+                                Volume I. Exploring the balance between raw materials and structured silhouettes.
                             </p>
                         </div>
                     </motion.div>
@@ -61,9 +61,9 @@ const Lookbook = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 pointer-events-none" />
                         </div>
                         <div className="mt-6 flex flex-col gap-2 text-right items-end">
-                            <span className="font-mono text-xs tracking-[0.3em] uppercase text-white/40">DISTRICT 9 — 02</span>
+                            <span className="font-mono text-xs tracking-[0.3em] uppercase text-white/40">FW26 CAMPAIGN — 02</span>
                             <h3 className="text-2xl md:text-3xl font-display uppercase tracking-[-0.02em] text-white">
-                                Shattered Saints
+                                The New Essentials
                             </h3>
                         </div>
                     </motion.div>

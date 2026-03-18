@@ -105,9 +105,9 @@ const Navbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-6 transition-all duration-500 ${scrolled
-          ? "bg-black/60 backdrop-blur-md border-b border-white/10"
-          : "bg-transparent mix-blend-difference"
+        className={`fixed left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-6 transition-all duration-500 ${scrolled
+          ? "top-0 bg-black/60 backdrop-blur-md border-b border-white/10"
+          : "top-[40px] bg-transparent mix-blend-difference"
           }`}
       >
         <Link href="/" className="flex items-center gap-3">

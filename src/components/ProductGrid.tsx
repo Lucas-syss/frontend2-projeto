@@ -75,7 +75,7 @@ const ProductItem = ({ product, index, onClick }: { product: typeof products[0],
     );
 }
 
-const ProductGrid = () => {
+const ProductGrid = ({ title = "THE COLLECTION", subtitle = "Curated artifacts for the modern dystopia" }: { title?: string, subtitle?: string }) => {
     const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
 
     return (
@@ -86,11 +86,11 @@ const ProductGrid = () => {
 
             <div className="relative z-10 max-w-7xl mx-auto w-full">
                 <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between border-b border-white/20 pb-12 gap-8">
-                    <h2 className="text-[clamp(3rem,8vw,8rem)] font-display uppercase leading-[0.8] tracking-[-0.04em] text-white">
-                        THE<br /> COLLECTION
+                    <h2 className="text-[clamp(3rem,8vw,8rem)] font-display uppercase leading-[0.8] tracking-[-0.04em] text-white whitespace-pre-line">
+                        {title.replace(' ', '\n')}
                     </h2>
-                    <p className="md:block text-zinc-500 font-mono text-xs uppercase tracking-[0.5em] mb-2 max-w-xs md:text-right">
-                        Curated artifacts for the modern dystopia
+                    <p className="md:block text-zinc-500 font-mono text-xs uppercase tracking-[0.5em] mb-2 max-w-xs md:text-right whitespace-pre-line">
+                        {subtitle}
                     </p>
                 </div>
 
