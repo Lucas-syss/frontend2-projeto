@@ -116,12 +116,6 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {sessionData?.user && (
-          <span className="hidden md:block text-sm font-mono uppercase tracking-wide text-primary/80">
-            Welcome, {sessionData.user.name}
-          </span>
-        )}
-
 
         <div className="hidden md:flex items-center gap-8">{navLinks}</div>
 
