@@ -9,6 +9,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";
 import { api } from "@/trpc/react";
+import GlitchText from "@/components/ui/GlitchText";
+import { ArrowLeft, KeyRound } from "lucide-react";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -34,13 +36,12 @@ const Login = () => {
             setLoading(false);
             toast.error("ACCESS DENIED", {
                 description: "INVALID CREDENTIALS",
-                className: "bg-destructive border border-destructive/20 text-white font-mono rounded-none uppercase",
+                className: "bg-destructive border border-destructive/20 text-white font-mono rounded-none uppercase tracking-widest",
             });
         } else {
-            // Success - sync local cart
-            toast.success("SYSTEM ACCESS GRANTED", {
+            toast.success("SIGN IN SUCCESSFUL", {
                 description: `Welcome back.`,
-                className: "bg-black border border-white/20 text-primary font-mono rounded-none uppercase",
+                className: "bg-black border border-green-500/50 text-green-400 font-mono rounded-none uppercase tracking-widest",
             });
 
             if (localCart.items.length > 0) {
@@ -53,75 +54,93 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center bg-background p-4 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('/noise.png')] mix-blend-overlay"></div>
+        <div className="min-h-screen w-full flex items-center justify-center bg-black p-4 relative overflow-hidden font-mono">
+            <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('/noise.png')] mix-blend-overlay" />
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-full max-w-md space-y-8 border-2 border-primary p-8 md:p-12 relative bg-card/50 backdrop-blur-sm"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full max-w-lg relative z-10"
             >
-                <div className="space-y-4 text-center">
-                    <h1 className="text-4xl font-black uppercase tracking-tighter">
-                        Sign In
-                    </h1>
-                    <p className="text-muted-foreground text-sm uppercase tracking-widest">
-                        Welcome back
-                    </p>
-                </div>
+                <Link
+                    href="/"
+                    className="inline-flex items-center gap-2 text-zinc-500 hover:text-white uppercase tracking-[0.2em] text-[10px] mb-8 transition-colors group"
+                >
+                    <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                    Back to Home
+                </Link>
 
-                {/* Credentials form */}
-                <form onSubmit={handleCredentials} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="email" className="uppercase text-xs tracking-wider">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="YOUR@EMAIL.COM"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="border-primary/50 bg-transparent focus:border-primary rounded-none h-12 text-lg"
-                        />
+                <div className="bg-zinc-950 border border-primary/30 p-8 md:p-12 shadow-[0_0_80px_rgba(255,0,0,0.1)] relative overflow-hidden">
+                    {/* Decorative Vault corner accents */}
+                    <div className="absolute top-0 left-0 w-2 h-2 bg-primary"></div>
+                    <div className="absolute top-0 right-0 w-2 h-2 bg-primary"></div>
+                    <div className="absolute bottom-0 left-0 w-2 h-2 bg-primary"></div>
+                    <div className="absolute bottom-0 right-0 w-2 h-2 bg-primary"></div>
+
+                    <div className="space-y-4 mb-10 border-b border-white/10 pb-8">
+                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-[0.1em] text-white">
+                            <GlitchText text="SIGN IN" />
+                        </h1>
+                        <p className="text-zinc-500 text-xs uppercase tracking-widest flex items-center gap-2">
+                            Welcome back
+                        </p>
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="password" className="uppercase text-xs tracking-wider">Password</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="border-primary/50 bg-transparent focus:border-primary rounded-none h-12 text-lg"
-                        />
+
+                    <form onSubmit={handleCredentials} className="space-y-6">
+                        <div className="space-y-3">
+                            <Label htmlFor="email" className="uppercase text-[10px] tracking-[0.2em] text-zinc-400">Email Address</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder="YOUR@EMAIL.COM"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="border-white/10 bg-black focus:border-primary rounded-none h-14 text-sm font-mono tracking-widest text-white transition-colors"
+                            />
+                        </div>
+                        <div className="space-y-3">
+                            <Label htmlFor="password" className="uppercase text-[10px] tracking-[0.2em] text-zinc-400">Password</Label>
+                            <Input
+                                id="password"
+                                type="password"
+                                placeholder="••••••••"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                className="border-white/10 bg-black focus:border-primary rounded-none h-14 text-sm font-mono tracking-widest text-white transition-colors"
+                            />
+                        </div>
+
+                        {error && (
+                            <div className="bg-red-950/30 border border-red-500/30 p-3 flex items-center gap-2 text-red-400">
+                                <span className="w-1 h-1 bg-red-500 animate-pulse"></span>
+                                <p className="text-[10px] font-mono uppercase tracking-widest">{error}</p>
+                            </div>
+                        )}
+
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full h-14 rounded-none uppercase tracking-[0.3em] font-bold text-xs bg-primary text-primary-foreground hover:bg-white hover:text-black transition-all duration-300 mt-4"
+                        >
+                            {loading ? "SIGNING IN..." : "SIGN IN"}
+                        </Button>
+                    </form>
+
+                    <div className="flex items-center gap-4 my-8">
+                        <div className="flex-1 h-px bg-white/5" />
+                        <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-[0.3em]">or</span>
+                        <div className="flex-1 h-px bg-white/5" />
                     </div>
-                    {error && (
-                        <p className="text-red-500 text-xs font-mono uppercase tracking-wider">{error}</p>
-                    )}
-                    <Button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full h-12 rounded-none uppercase tracking-[0.2em] font-bold text-lg hover:bg-primary/90 transition-all duration-300"
-                    >
-                        {loading ? "Signing in..." : "Sign In"}
-                    </Button>
-                </form>
 
-                <div className="flex items-center gap-4">
-                    <div className="flex-1 h-px bg-white/10" />
-                    <span className="text-xs font-mono text-white/30 uppercase tracking-widest">or</span>
-                    <div className="flex-1 h-px bg-white/10" />
-                </div>
-
-                <div className="space-y-4">
                     <Button
                         onClick={() => signIn("google", { callbackUrl: "/" })}
                         variant="outline"
-                        className="w-full h-12 rounded-none uppercase tracking-[0.2em] font-bold text-sm border-white/20 hover:border-white/60 transition-all duration-300 flex items-center justify-center gap-3 bg-transparent"
+                        className="w-full h-14 rounded-none uppercase tracking-[0.2em] font-bold text-[10px] border-white/10 hover:border-white/40 hover:bg-white/5 transition-all duration-300 flex items-center justify-center gap-3 bg-black text-white"
                     >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                             <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                             <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
@@ -129,19 +148,13 @@ const Login = () => {
                         </svg>
                         Continue with Google
                     </Button>
-                </div>
 
-                <div className="text-center pt-4 border-t border-primary/20 flex flex-col gap-2">
-                    <span className="text-xs text-muted-foreground uppercase tracking-widest">No account?</span>
-                    <Link href="/register" className="text-xs text-primary hover:text-primary/70 transition-colors uppercase tracking-widest font-bold">
-                        Create Account
-                    </Link>
-                </div>
-
-                <div className="text-center">
-                    <a href="/" className="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest">
-                        ← Back to Home
-                    </a>
+                    <div className="text-center mt-10 pt-6 border-t border-white/10">
+                        <span className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] block mb-2">No account?</span>
+                        <Link href="/register" className="text-xs text-primary hover:text-white transition-colors uppercase tracking-[0.2em] font-bold inline-block border-b border-primary hover:border-white pb-1">
+                            Create Account
+                        </Link>
+                    </div>
                 </div>
             </motion.div>
         </div>

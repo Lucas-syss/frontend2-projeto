@@ -8,7 +8,8 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
-import { useCartStore } from "@/store/useCartStore";
+import GlitchText from "@/components/ui/GlitchText";
+import { ArrowLeft, UserPlus } from "lucide-react";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -20,7 +21,6 @@ const Register = () => {
 
     const register = api.auth.register.useMutation({
         onSuccess: async () => {
-            // Auto sign in after registration
             const result = await signIn("credentials", {
                 email,
                 password,
@@ -29,6 +29,9 @@ const Register = () => {
             if (result?.error) {
                 setError("Registration successful, but sign-in failed. Try logging in.");
             } else {
+                toast.success("ACCOUNT CREATED", {
+                    className: "bg-black border border-green-500/50 text-green-400 font-mono rounded-none uppercase tracking-widest",
+                });
                 window.location.href = "/";
             }
         },
@@ -41,11 +44,12 @@ const Register = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+
         if (password !== confirm) {
             setError("Passwords do not match.");
             toast.error("VALIDATION FAILED", {
                 description: "PASSWORDS DO NOT MATCH",
-                className: "bg-destructive border border-destructive/20 text-white font-mono rounded-none uppercase",
+                className: "bg-destructive border border-destructive/20 text-white font-mono rounded-none uppercase tracking-widest",
             });
             return;
         }
@@ -58,96 +62,114 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center bg-background p-4 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('/noise.png')] mix-blend-overlay"></div>
+        <div className="min-h-screen w-full flex items-center justify-center bg-black p-4 relative overflow-hidden font-mono">
+            <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('/noise.png')] mix-blend-overlay" />
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-full max-w-md space-y-8 border-2 border-primary p-8 md:p-12 relative bg-card/50 backdrop-blur-sm"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full max-w-lg relative z-10"
             >
-                <div className="space-y-4 text-center">
-                    <h1 className="text-4xl font-black uppercase tracking-tighter">
-                        Create Account
-                    </h1>
-                    <p className="text-muted-foreground text-sm uppercase tracking-widest">
-                        Join StoneSaints
-                    </p>
-                </div>
+                <Link
+                    href="/"
+                    className="inline-flex items-center gap-2 text-zinc-500 hover:text-white uppercase tracking-[0.2em] text-[10px] mb-8 transition-colors group"
+                >
+                    <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                    Back to Home
+                </Link>
 
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                    <div className="space-y-2">
-                        <Label htmlFor="name" className="uppercase text-xs tracking-wider">Name</Label>
-                        <Input
-                            id="name"
-                            type="text"
-                            placeholder="Your Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            className="border-primary/50 bg-transparent focus:border-primary rounded-none h-12 text-lg"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="email" className="uppercase text-xs tracking-wider">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="YOUR@EMAIL.COM"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="border-primary/50 bg-transparent focus:border-primary rounded-none h-12 text-lg"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="password" className="uppercase text-xs tracking-wider">Password</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="border-primary/50 bg-transparent focus:border-primary rounded-none h-12 text-lg"
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="confirm-password" className="uppercase text-xs tracking-wider">Confirm Password</Label>
-                        <Input
-                            id="confirm-password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={confirm}
-                            onChange={(e) => setConfirm(e.target.value)}
-                            required
-                            className="border-primary/50 bg-transparent focus:border-primary rounded-none h-12 text-lg"
-                        />
-                    </div>
-                    {error && (
-                        <p className="text-red-500 text-xs font-mono uppercase tracking-wider">{error}</p>
-                    )}
-                    <Button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full h-12 rounded-none uppercase tracking-[0.2em] font-bold text-lg hover:bg-primary/90 transition-all duration-300"
-                    >
-                        {loading ? "Creating..." : "Create Account"}
-                    </Button>
-                </form>
+                <div className="bg-zinc-950 border border-primary/30 p-8 md:p-12 shadow-[0_0_80px_rgba(255,0,0,0.1)] relative overflow-hidden">
+                    {/* Decorative Vault corner accents */}
+                    <div className="absolute top-0 left-0 w-2 h-2 bg-primary"></div>
+                    <div className="absolute top-0 right-0 w-2 h-2 bg-primary"></div>
+                    <div className="absolute bottom-0 left-0 w-2 h-2 bg-primary"></div>
+                    <div className="absolute bottom-0 right-0 w-2 h-2 bg-primary"></div>
 
-                <div className="text-center pt-4 border-t border-primary/20 flex flex-col gap-2">
-                    <span className="text-xs text-muted-foreground uppercase tracking-widest">Already have an account?</span>
-                    <Link href="/login" className="text-xs text-primary hover:text-primary/70 transition-colors uppercase tracking-widest font-bold">
-                        Sign In
-                    </Link>
-                </div>
+                    <div className="space-y-4 mb-10 border-b border-white/10 pb-8">
+                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-[0.1em] text-white">
+                            <GlitchText text="CREATE ACCOUNT" />
+                        </h1>
+                        <p className="text-zinc-500 text-xs uppercase tracking-widest flex items-center gap-2">
+                            Join StoneSaints
+                        </p>
+                    </div>
 
-                <div className="text-center">
-                    <a href="/" className="text-xs text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest">
-                        ← Back to Home
-                    </a>
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        <div className="space-y-3">
+                            <Label htmlFor="name" className="uppercase text-[10px] tracking-[0.2em] text-zinc-400">Name</Label>
+                            <Input
+                                id="name"
+                                type="text"
+                                placeholder="Your Name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                className="border-white/10 bg-black focus:border-primary rounded-none h-14 text-sm font-mono tracking-widest text-white transition-colors"
+                            />
+                        </div>
+                        <div className="space-y-3">
+                            <Label htmlFor="email" className="uppercase text-[10px] tracking-[0.2em] text-zinc-400">Email Address</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder="YOUR@EMAIL.COM"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="border-white/10 bg-black focus:border-primary rounded-none h-14 text-sm font-mono tracking-widest text-white transition-colors"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-3">
+                                <Label htmlFor="password" className="uppercase text-[10px] tracking-[0.2em] text-zinc-400">Password</Label>
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    className="border-white/10 bg-black focus:border-primary rounded-none h-14 text-sm font-mono tracking-widest text-white transition-colors"
+                                />
+                            </div>
+                            <div className="space-y-3">
+                                <Label htmlFor="confirm-password" className="uppercase text-[10px] tracking-[0.2em] text-zinc-400">Confirm Password</Label>
+                                <Input
+                                    id="confirm-password"
+                                    type="password"
+                                    placeholder="••••••••"
+                                    value={confirm}
+                                    onChange={(e) => setConfirm(e.target.value)}
+                                    required
+                                    className="border-white/10 bg-black focus:border-primary rounded-none h-14 text-sm font-mono tracking-widest text-white transition-colors"
+                                />
+                            </div>
+                        </div>
+
+                        {error && (
+                            <div className="bg-red-950/30 border border-red-500/30 p-3 flex items-center gap-2 text-red-400">
+                                <span className="w-1 h-1 bg-red-500 animate-pulse"></span>
+                                <p className="text-[10px] font-mono uppercase tracking-widest">{error}</p>
+                            </div>
+                        )}
+
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full h-14 rounded-none uppercase tracking-[0.3em] font-bold text-xs bg-primary text-primary-foreground hover:bg-white hover:text-black transition-all duration-300 mt-4"
+                        >
+                            {loading ? "CREATING..." : "CREATE ACCOUNT"}
+                        </Button>
+                    </form>
+
+                    <div className="text-center mt-10 pt-6 border-t border-white/10">
+                        <span className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] block mb-2">Already have an account?</span>
+                        <Link href="/login" className="text-xs text-primary hover:text-white transition-colors uppercase tracking-[0.2em] font-bold inline-block border-b border-primary hover:border-white pb-1">
+                            SIGN IN
+                        </Link>
+                    </div>
                 </div>
             </motion.div>
         </div>
