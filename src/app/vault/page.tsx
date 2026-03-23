@@ -27,7 +27,7 @@ const Vault = () => {
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#f00_1px,transparent_1px),linear-gradient(to_bottom,#f00_1px,transparent_1px)] bg-[size:4rem_4rem]" />
             <div className="absolute inset-0 bg-red-900/10 mix-blend-overlay pointer-events-none" />
 
-            <div className="relative z-10 w-full max-w-2xl p-8">
+            <div className={`relative z-10 w-full p-4 md:p-8 transition-all duration-700 ${unlocked ? 'max-w-[95vw] lg:max-w-7xl' : 'max-w-2xl'}`}>
                 <AnimatePresence mode="wait">
                     {!unlocked ? (
                         <motion.div
