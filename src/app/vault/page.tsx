@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlitchText from "@/components/ui/GlitchText";
+import { VaultReport } from "./VaultReport";
 
 const Vault = () => {
     const [passcode, setPasscode] = useState("");
@@ -66,35 +67,7 @@ const Vault = () => {
                             </form>
                         </motion.div>
                     ) : (
-                        <motion.div
-                            key="unlocked"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="text-center space-y-12"
-                        >
-                            <div className="space-y-4">
-                                <h2 className="text-5xl font-black text-white mix-blend-difference">
-                                    <GlitchText text="WELCOME TO THE VOID" />
-                                </h2>
-                                <p className="text-white/60 max-w-lg mx-auto leading-relaxed">
-                                    You have accessed the internal archives.
-                                    Here lies the discarded, the forgotten, and the future.
-                                </p>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="aspect-square bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer group">
-                                    <span className="text-white/30 text-xs uppercase tracking-widest group-hover:text-white transition-colors">Asset_01.zip</span>
-                                </div>
-                                <div className="aspect-square bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer group">
-                                    <span className="text-white/30 text-xs uppercase tracking-widest group-hover:text-white transition-colors">Schematics.pdf</span>
-                                </div>
-                            </div>
-
-                            <button onClick={() => setUnlocked(false)} className="text-red-600 text-xs uppercase tracking-widest hover:text-red-500">
-                                [ Lock Terminal ]
-                            </button>
-                        </motion.div>
+                        <VaultReport onLock={() => setUnlocked(false)} />
                     )}
                 </AnimatePresence>
             </div>

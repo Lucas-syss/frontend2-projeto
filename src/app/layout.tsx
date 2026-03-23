@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Anton, Space_Mono } from "next/font/google";
 import Preloader from "@/components/ui/Preloader";
 import { Providers } from "@/components/Providers";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 const anton = Anton({
@@ -55,6 +56,7 @@ export default function RootLayout({
                 <Providers>
                     {children}
                 </Providers>
+                <GoogleAnalytics gaId="G-Y81HT349C4" />
             </body>
         </html>
     );
