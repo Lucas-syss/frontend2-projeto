@@ -6,6 +6,7 @@ import { api } from "@/trpc/react";
 import { useSession } from "next-auth/react";
 import { useCartStore } from "@/store/useCartStore";
 import { useRouter } from "next/navigation";
+import { sendGAEvent } from "@next/third-parties/google";
 
 
 
@@ -38,6 +39,8 @@ const Cart = () => {
 
     const handleCheckout = async () => {
         if (cartItems.length === 0) return;
+
+        sendGAEvent({ event: "begin_checkout", value: estTotal, currency: "EUR" });
 
         if (!sessionData?.user) {
             router.push("/login?redirect=/cart");
@@ -99,6 +102,7 @@ const Cart = () => {
                                         </div>
                                         <button
                                             onClick={() => {
+                                                sendGAEvent({ event: "remove_from_cart", item_name: item.name });
                                                 if (sessionData?.user) {
                                                     removeFromCart.mutate({ itemId: item.id });
                                                 } else {

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
 import { motion } from "framer-motion";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const products = [
     {
@@ -80,7 +81,10 @@ const ProductGrid = ({ title = "THE COLLECTION", subtitle = "Curated artifacts f
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                             className={`${index % 2 !== 0 ? 'md:mt-32' : ''}`}
                         >
-                            <ProductItem product={product} index={index} onClick={() => setSelectedProduct(product)} />
+                            <ProductItem product={product} index={index} onClick={() => {
+                                sendGAEvent({ event: "view_item", item_name: product.name, value: parseFloat(product.price.replace(/[^0-9.-]+/g, "")), currency: "EUR" });
+                                setSelectedProduct(product);
+                            }} />
                         </motion.div>
                     ))}
                 </div>

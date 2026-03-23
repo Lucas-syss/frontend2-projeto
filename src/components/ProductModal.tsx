@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";
+import { sendGAEvent } from "@next/third-parties/google";
 
 interface Product {
     id: number;
@@ -60,6 +61,8 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
             });
             return;
         }
+
+        sendGAEvent({ event: "add_to_cart", item_name: product.name, value: numericPrice, currency: "EUR" });
 
         if (!sessionData?.user) {
             // Unauthenticated Guest: Add to Zustand
