@@ -3,6 +3,7 @@ import { Anton, Space_Mono } from "next/font/google";
 import Preloader from "@/components/ui/Preloader";
 import { Providers } from "@/components/Providers";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const anton = Anton({
@@ -65,6 +66,7 @@ export default function RootLayout({
                 <Providers>
                     {children}
                 </Providers>
+                <SpeedInsights />
             </body>
         </html>
     );
