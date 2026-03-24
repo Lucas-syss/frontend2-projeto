@@ -51,15 +51,7 @@ export default function RootLayout({
         <html lang="en" className={`${anton.variable} ${spaceMono.variable}`}>
             <head>
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-                <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-Y81HT349C4" />
-                <Script id="google-analytics" strategy="afterInteractive">
-                    {`
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'G-Y81HT349C4');
-                    `}
-                </Script>
+                <script defer src="https://cloud.umami.is/script.js" data-website-id="90663f1a-7ce0-457e-8784-23d9b77f9ab3"></script>
             </head>
             <body className="antialiased selection:bg-white selection:text-black">
                 <Preloader />

@@ -22,8 +22,8 @@ Bridging complex User vs. Guest cart behavior gracefully.
 
 ### Production Environment Features
 - **Vercel Speed Insights**: Natively hooked at the root layout for real-time Core Web Vitals telemetry.
-- **Google Analytics**: Integrated dynamically via `@next/third-parties/google`, featuring custom dataLayer pushes targeting E-Commerce events (`view_item`, `add_to_cart`, `purchase`, `begin_checkout`).
-- **Google Cloud Platform**: Firebase initialization architecture pre-configured securely via environment variables.
+- **Umami Analytics**: Integrated for lightweight, privacy-focused analytics without the need for cookie banners, replacing legacy Google Analytics tracking.
+- **Environment Management**: Environment variables are strictly typed and securely handled directly in Node configurations via T3 Env.
 - **SEO Engines**: Automatically executing dynamic `robots.ts` and `sitemap.ts` routing to facilitate standard crawling.
 
 ### Security & Integrations

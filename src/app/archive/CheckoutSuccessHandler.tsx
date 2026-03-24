@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";
 import { api } from "@/trpc/react";
-import { sendGAEvent } from "@next/third-parties/google";
+
 
 export function CheckoutSuccessHandler() {
     const searchParams = useSearchParams();
@@ -44,7 +44,7 @@ export function CheckoutSuccessHandler() {
             // Clear the zustand guest cart defensively
             clearLocalCart();
 
-            sendGAEvent({ event: "purchase", transaction_id: sessionId || "GUEST_TX" });
+
 
             if (sessionId) {
                 // Verify payment on the backend to create order and clear database cart synchronously

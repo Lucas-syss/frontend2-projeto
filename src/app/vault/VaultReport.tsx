@@ -137,17 +137,17 @@ const reqs = [
         title: "Bonus 7: Analytics Metrics",
         type: "Bonus",
         status: "Fulfilled",
-        location: "src/app/layout.tsx, ProductModal.tsx",
-        desc: "Core global tagging injected alongside surgical E-Commerce specific metric hooks for events like view_item, add_to_cart, and purchase.",
-        snippet: `// Fired natively inside ProductModal.tsx\nsendGAEvent({\n  event: "add_to_cart",\n  item_name: product.name,\n  value: numericPrice,\n  currency: "EUR"\n});`
+        location: "src/app/layout.tsx",
+        desc: "Core global tagging injected using Umami Analytics for privacy-focused tracking.",
+        snippet: `// Fired naturally inside layout.tsx\n<Script defer src="https://cloud.umami.is/script.js" data-website-id="YOUR_UMAMI_WEBSITE_ID" />`
     },
     {
-        title: "Bonus 8: Cloud Architecture",
+        title: "Bonus 8: Analytics Architecture",
         type: "Bonus",
         status: "Fulfilled",
-        location: "src/lib/firebase.ts",
-        desc: "Demonstrated Google Cloud initialization executing safe browser-bound loading algorithms shielding SSR configurations.",
-        snippet: `import { initializeApp } from "firebase/app";\n\nlet analytics = null;\nif (typeof window !== "undefined") {\n  isSupported().then((supported) => {\n    if (supported) analytics = getAnalytics(app);\n  });\n}`
+        location: "src/app/layout.tsx",
+        desc: "Migrated away from Google Cloud/Firebase architecture to use Umami Analytics for lightweight, privacy-focused telemetry without cookies.",
+        snippet: `// Privacy-first analytics\n// No cookie banners required\n// GDPR compliant by default`
     }
 ];
 
