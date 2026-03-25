@@ -43,7 +43,7 @@ describe('useCartStore (Shopping Cart Core functionality)', () => {
         useCartStore.getState().addItem(item);
 
         const state = useCartStore.getState();
-        expect(state.items).toHaveLength(1); // Still 1 distinct item type
+        expect(state.items).toHaveLength(1); 
         expect(state.items[0].quantity).toBe(2);
         expect(state.getTotalItems()).toBe(2);
         expect(state.getSubtotal()).toBe(200);
@@ -77,11 +77,9 @@ describe('useCartStore (Shopping Cart Core functionality)', () => {
             productId: 'TEST_PROD_1', name: 'Test Hoodie', size: 'L', price: 100, quantity: 2, image: ''
         });
 
-        // Update to 5
         useCartStore.getState().updateQuantity('TEST_PROD_1-L', 5);
         expect(useCartStore.getState().items[0].quantity).toBe(5);
 
-        // Attempt to update to 0 or negative (should lock at 1)
         useCartStore.getState().updateQuantity('TEST_PROD_1-L', -3);
         expect(useCartStore.getState().items[0].quantity).toBe(1);
     });

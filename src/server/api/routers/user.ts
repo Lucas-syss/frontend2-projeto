@@ -39,7 +39,7 @@ export const userRouter = createTRPCRouter({
             })
         )
         .mutation(async ({ ctx, input }) => {
-            // Check if email is taken by another user
+            
             if (input.email) {
                 const existing = await ctx.db.user.findFirst({
                     where: {

@@ -10,7 +10,6 @@ export function CartSync() {
     const clearLocalCart = useCartStore((state) => state.clearCart);
     const utils = api.useUtils();
 
-    // Use a ref to prevent multiple sudden sync calls in React strict mode or upon rapid re-renders
     const isSyncing = useRef(false);
 
     const syncCartMutation = api.cart.syncCart.useMutation({
@@ -40,5 +39,5 @@ export function CartSync() {
         }
     }, [session?.user, localCart.length, syncCartMutation, localCart]);
 
-    return null; // This is a logic-only component
+    return null; 
 }

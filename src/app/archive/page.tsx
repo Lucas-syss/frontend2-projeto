@@ -19,14 +19,12 @@ import {
     AlertTriangle,
 } from "lucide-react";
 
-/* ─── Status badge styling ─── */
 const statusStyle = (status: string) => {
     if (status === "PROCESSING") return "border-primary text-primary animate-pulse";
     if (status === "REFUNDED") return "border-destructive text-destructive";
     return "border-white/20 text-white/50";
 };
 
-/* ─── Order Card (preserved from original) ─── */
 const OrderCard = ({ order, index }: { order: any; index: number }) => (
     <div
         className="group relative bg-secondary/10 border border-white/5 p-6 backdrop-blur-sm overflow-hidden hover:border-white/20 transition-colors duration-300"
@@ -58,7 +56,6 @@ const OrderCard = ({ order, index }: { order: any; index: number }) => (
     </div>
 );
 
-/* ─── Stat Card ─── */
 const StatCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
     <div className="border border-white/10 bg-secondary/10 p-6 flex flex-col gap-4 hover:border-white/20 transition-colors duration-300">
         <div className="flex items-center gap-3">
@@ -71,7 +68,6 @@ const StatCard = ({ icon, label, value }: { icon: React.ReactNode; label: string
     </div>
 );
 
-/* ─── Tab Button ─── */
 const TabButton = ({
     active,
     onClick,
@@ -95,7 +91,6 @@ const TabButton = ({
     </button>
 );
 
-/* ─── Overview Tab ─── */
 const OverviewTab = ({
     orders,
     setActiveTab,
@@ -108,7 +103,7 @@ const OverviewTab = ({
 
     return (
         <div className="space-y-12">
-            {/* Welcome Header */}
+            {}
             <div>
                 <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">
                     Welcome back{profile?.name ? `, ${profile.name}` : ""}
@@ -118,7 +113,7 @@ const OverviewTab = ({
                 </p>
             </div>
 
-            {/* Stats Grid */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <StatCard
                     icon={<Package className="w-5 h-5 stroke-[1.5]" />}
@@ -144,7 +139,7 @@ const OverviewTab = ({
                 />
             </div>
 
-            {/* Recent Orders */}
+            {}
             <div>
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-black uppercase tracking-widest text-white">Recent Orders</h3>
@@ -179,7 +174,6 @@ const OverviewTab = ({
     );
 };
 
-/* ─── Orders Tab ─── */
 const OrdersTab = ({ orders, isLoading }: { orders: any[] | undefined; isLoading: boolean }) => (
     <div className="space-y-8">
         <div>
@@ -211,22 +205,18 @@ const OrdersTab = ({ orders, isLoading }: { orders: any[] | undefined; isLoading
     </div>
 );
 
-/* ─── Settings Tab ─── */
 const SettingsTab = () => {
     const { data: profile, isLoading: profileLoading } = api.user.getProfile.useQuery();
     const utils = api.useUtils();
 
-    // Profile form state
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [profileInitialized, setProfileInitialized] = useState(false);
 
-    // Password form state
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    // Initialize form with profile data when available
     if (profile && !profileInitialized) {
         setName(profile.name ?? "");
         setEmail(profile.email ?? "");
@@ -279,7 +269,7 @@ const SettingsTab = () => {
 
     return (
         <div className="space-y-12 max-w-2xl">
-            {/* Profile Section */}
+            {}
             <div>
                 <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">Settings</h2>
                 <p className="text-sm font-mono text-white/40 mt-2 tracking-widest uppercase">
@@ -326,7 +316,7 @@ const SettingsTab = () => {
                 </div>
             </form>
 
-            {/* Password Section */}
+            {}
             {profile?.hasPassword && (
                 <form onSubmit={handlePasswordSubmit} className="space-y-6">
                     <div className="flex items-center gap-3 mb-2">
@@ -375,7 +365,7 @@ const SettingsTab = () => {
                 </form>
             )}
 
-            {/* Danger Zone */}
+            {}
             <div className="space-y-6">
                 <div className="flex items-center gap-3 mb-2">
                     <AlertTriangle className="w-4 h-4 text-destructive stroke-[1.5]" />
@@ -397,7 +387,6 @@ const SettingsTab = () => {
     );
 };
 
-/* ─── Main Dashboard Page ─── */
 const Archive = () => {
     const { data: sessionData } = useSession();
     const [activeTab, setActiveTab] = useState("overview");
@@ -418,7 +407,7 @@ const Archive = () => {
                 <CheckoutSuccessHandler />
             </Suspense>
 
-            {/* Page Header */}
+            {}
             <section className="pt-32 pb-12 px-8 border-b border-white/10">
                 <div className="max-w-7xl mx-auto">
                     <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-black uppercase leading-[0.9] tracking-tight text-white">
@@ -444,7 +433,7 @@ const Archive = () => {
             ) : (
                 <section className="px-4 md:px-8 py-12">
                     <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 md:gap-12">
-                        {/* Sidebar Navigation */}
+                        {}
                         <nav className="md:w-56 flex-shrink-0">
                             <div className="flex md:flex-col gap-1 overflow-x-auto md:overflow-x-visible md:sticky md:top-24">
                                 {tabs.map((tab) => (
@@ -459,7 +448,7 @@ const Archive = () => {
                             </div>
                         </nav>
 
-                        {/* Main Content */}
+                        {}
                         <main className="flex-1 min-w-0">
                             {activeTab === "overview" && (
                                 <OverviewTab orders={orders} setActiveTab={setActiveTab} />

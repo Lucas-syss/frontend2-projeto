@@ -56,7 +56,7 @@ export const allProducts: Product[] = [
         category: "accessories",
         gender: "unisex",
     },
-    // Women's specific items
+    
     {
         id: 7,
         name: "PHANTOM HOODIE",

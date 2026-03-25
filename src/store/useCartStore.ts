@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export interface LocalCartItem {
-    id: string; // Unique string combining productId and size
+    id: string; 
     productId: string;
     name: string;
     size: string;

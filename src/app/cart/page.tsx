@@ -7,9 +7,6 @@ import { useSession } from "next-auth/react";
 import { useCartStore } from "@/store/useCartStore";
 import { useRouter } from "next/navigation";
 
-
-
-
 const Cart = () => {
     const { data: sessionData } = useSession();
     const router = useRouter();
@@ -34,13 +31,10 @@ const Cart = () => {
     const subtotal = cartItems.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
     const estTotal = subtotal;
 
-
     const checkout = api.stripe.createCheckoutSession.useMutation();
 
     const handleCheckout = async () => {
         if (cartItems.length === 0) return;
-
-
 
         if (!sessionData?.user) {
             router.push("/login?redirect=/cart");
@@ -61,7 +55,6 @@ const Cart = () => {
     return (
         <div className="min-h-screen bg-black w-full pt-32 pb-24 px-4 md:px-8">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24">
-
 
                 <div className="flex-1 w-full">
                     <div className="flex items-center gap-4 mb-12">
@@ -91,7 +84,6 @@ const Cart = () => {
                                 <div className="w-24 h-32 md:w-32 md:h-40 bg-black/50 overflow-hidden border border-white/5 shrink-0">
                                     <img src={item.image} alt={item.name} className="w-full h-full object-cover filter grayscale opacity-80" />
                                 </div>
-
 
                                 <div className="flex flex-col flex-1 py-1">
                                     <div className="flex justify-between items-start">
@@ -154,7 +146,6 @@ const Cart = () => {
                     </div>
                 </div>
 
-
                 <div className="w-full lg:w-[400px] shrink-0">
                     <div className="sticky top-32 border border-white/10 bg-white/5 p-8">
                         <h2 className="text-xl font-bold uppercase tracking-[0.2em] text-white mb-8 border-b border-white/10 pb-4">
@@ -195,7 +186,7 @@ const Cart = () => {
                         </button>
 
                         <div className="mt-6 flex flex-col gap-2 text-center text-[10px] font-mono tracking-widest text-white/30 uppercase">
-                            <p>SECURE ENCRYPTED TRANSACTION // 256-BIT</p>
+                            <p>SECURE ENCRYPTED TRANSACTION 
                             <p className="flex justify-center gap-4 mt-2">
                                 <span>VISA</span>
                                 <span>MC</span>
@@ -219,7 +210,5 @@ function ArrowRight(props: React.SVGProps<SVGSVGElement>) {
         </svg>
     )
 }
-
-
 
 export default Cart;

@@ -48,7 +48,7 @@ const Navbar = () => {
 
   const navLinks = (
     <>
-      {["COLLECTION", "LOOKBOOK"].map((link) => (
+      {["COLLECTION"].map((link) => (
         <a
           key={link}
           href={`/#${link.toLowerCase()}`}

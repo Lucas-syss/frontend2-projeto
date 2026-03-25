@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";
 
-
 interface Product {
     id: number;
     name: string;
@@ -62,10 +61,8 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
             return;
         }
 
-
-
         if (!sessionData?.user) {
-            // Unauthenticated Guest: Add to Zustand
+            
             localCart.addItem({
                 productId: `PROD-${product.id}`,
                 name: product.name,
@@ -83,7 +80,6 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
             return;
         }
 
-        // Authenticated User: Add to DB via tRPC
         addToCart.mutate({
             productId: `PROD-${product.id}`,
             name: product.name,

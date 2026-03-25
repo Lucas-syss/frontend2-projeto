@@ -80,7 +80,7 @@ const Register = () => {
                 </Link>
 
                 <div className="bg-zinc-950 border border-primary/30 p-8 md:p-12 shadow-[0_0_80px_rgba(255,0,0,0.1)] relative overflow-hidden">
-                    {/* Decorative Vault corner accents */}
+                    {}
                     <div className="absolute top-0 left-0 w-2 h-2 bg-primary"></div>
                     <div className="absolute top-0 right-0 w-2 h-2 bg-primary"></div>
                     <div className="absolute bottom-0 left-0 w-2 h-2 bg-primary"></div>
@@ -158,7 +158,7 @@ const Register = () => {
                         <Button
                             type="submit"
                             disabled={loading}
-                            className="w-full h-14 rounded-none uppercase tracking-[0.3em] font-bold text-xs bg-primary text-primary-foreground hover:bg-white hover:text-black transition-all duration-300 mt-4"
+                            className="w-full h-14 rounded-none uppercase tracking-[0.3em] font-bold text-sm bg-primary text-primary-foreground hover:bg-white hover:text-black transition-all duration-300 mt-4"
                         >
                             {loading ? "CREATING..." : "CREATE ACCOUNT"}
                         </Button>

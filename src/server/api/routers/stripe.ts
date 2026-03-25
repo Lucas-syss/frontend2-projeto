@@ -69,7 +69,6 @@ export const stripeRouter = createTRPCRouter({
                     include: { items: true },
                 });
 
-                // If cart is empty, the Stripe webhook might have already processed it.
                 if (!cart || cart.items.length === 0) {
                     return { success: true, message: "Already processed" };
                 }

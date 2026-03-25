@@ -27,7 +27,7 @@ const WomensPage = () => {
         <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
             <Navbar />
 
-            {/* Header */}
+            {}
             <section className="pt-32 pb-12 px-8 border-b border-white/10">
                 <div className="max-w-7xl mx-auto">
                     <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-black uppercase leading-[0.9] tracking-tight text-white">
@@ -41,7 +41,7 @@ const WomensPage = () => {
 
             <section className="px-4 md:px-8 py-12">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 md:gap-12">
-                    {/* Filter Sidebar */}
+                    {}
                     <nav className="md:w-56 flex-shrink-0">
                         <div className="md:sticky md:top-24 space-y-1">
                             <p className="text-xs font-mono uppercase tracking-widest text-white/30 mb-4">
@@ -71,7 +71,7 @@ const WomensPage = () => {
                         </div>
                     </nav>
 
-                    {/* Product Grid */}
+                    {}
                     <main className="flex-1 min-w-0">
                         {filtered.length === 0 ? (
                             <div className="text-center py-24">

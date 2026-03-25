@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import Register from '../page';
 
-// Mock the Next.js and TRPC hooks to run the component in isolation
 vi.mock('next/link', () => {
     return {
         default: ({ children, href }: any) => <a href={href}>{children}</a>
@@ -40,16 +39,13 @@ describe('Registration Form (Core Auth Functionality)', () => {
     it('shows error if passwords do not match', async () => {
         render(<Register />);
 
-        // Fill out the form
         fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'Test User' } });
         fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'test@example.com' } });
         fireEvent.change(screen.getByLabelText(/^Password$/i), { target: { value: 'securepassword123' } });
         fireEvent.change(screen.getByLabelText(/Confirm Password/i), { target: { value: 'wrongpassword' } });
 
-        // Submit
         fireEvent.click(screen.getByRole('button', { name: /Create Account/i }));
 
-        // Expect validation error
         expect(await screen.findByText('Passwords do not match.')).toBeInTheDocument();
     });
 

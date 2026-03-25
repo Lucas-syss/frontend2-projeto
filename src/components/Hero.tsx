@@ -42,12 +42,14 @@ const Hero = () => {
       <HeroBackground />
       <motion.div
         className="relative z-10 w-full px-4 mix-blend-difference"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
         style={{ y: y2, opacity }}
       >
-        <div className="relative max-w-7xl mx-auto flex flex-col items-center text-center mt-20">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="relative max-w-7xl mx-auto flex flex-col items-center text-center mt-20"
+        >
           <h1 className="text-[clamp(3.5rem,8vw,8rem)] font-display uppercase leading-[0.9] tracking-widest text-primary font-light">
             <motion.div variants={itemVariants}>THE FW26</motion.div>
             <motion.div variants={itemVariants}>
@@ -67,7 +69,7 @@ const Hero = () => {
           >
             DISCOVER NOW
           </motion.a>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

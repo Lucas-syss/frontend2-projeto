@@ -3,9 +3,6 @@ import { createTRPCContext } from "@/server/api/trpc"
 import { headers } from "next/headers"
 import { cache } from "react"
 
-/**
- * Caller for server components
- */
 const createContext = cache(async () => {
     const heads = new Headers(await headers())
     heads.set("x-trpc-source", "rsc")

@@ -17,7 +17,7 @@ const CategoryHighlights = () => {
                     </div>
                 </Link>
                 <Link href="/womens" className="group relative block aspect-[4/5] md:aspect-square overflow-hidden bg-muted">
-                    <div className="absolute inset-0 bg-[url('/modal2.webp')] grayscale bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-[url('/woman-facing-left.png')] grayscale bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-500" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                         <h3 className="text-white text-4xl md:text-6xl font-display uppercase tracking-widest">

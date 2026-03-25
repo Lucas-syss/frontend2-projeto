@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
 import CategoryHighlights from "@/components/CategoryHighlights";
 import ProductGrid from "@/components/ProductGrid";
-import Lookbook from "@/components/Lookbook";
+
 import Craftsmanship from "@/components/Craftsmanship";
 import Footer from "@/components/Footer";
 
@@ -22,7 +22,6 @@ const Index = () => {
         title="NEW ARRIVALS"
         subtitle="Discover the latest pieces for the season."
       />
-      <Lookbook />
       <Craftsmanship />
       <Footer />
     </div>
