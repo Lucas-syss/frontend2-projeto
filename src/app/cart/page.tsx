@@ -186,17 +186,17 @@ const Cart = () => {
                         </button>
 
                         <div className="mt-6 flex flex-col gap-2 text-center text-[10px] font-mono tracking-widest text-white/30 uppercase">
-                            <p>SECURE ENCRYPTED TRANSACTION 
-                            <p className="flex justify-center gap-4 mt-2">
-                                <span>VISA</span>
-                                <span>MC</span>
-                                <span>AMEX</span>
-                                <span>PAYPAL</span>
-                            </p>
+                            <p>SECURE ENCRYPTED TRANSACTION</p>
+                                <p className="flex justify-center gap-4 mt-2">
+                                    <span>VISA</span>
+                                    <span>MC</span>
+                                    <span>AMEX</span>
+                                    <span>PAYPAL</span>
+                                </p>
+
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );
